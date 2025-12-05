@@ -2,16 +2,148 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>环玉衡 | 个人主页</title>
   <style>
-    body{font-family:"微软雅黑",Arial,sans-serif;max-width:900px;margin:60px auto;padding:0 16px;}
+    :root{
+      --text:#111;
+      --muted:#666;
+      --border:#eee;
+      --accent:#0b63d1;
+      --bg:#ffffff;
+      --card:#fafafa;
+    }
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family: "微软雅黑", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      line-height:1.6;
+    }
+    .wrap{
+      max-width: 920px;
+      margin: 64px auto;
+      padding: 0 18px;
+    }
+    header{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      padding-bottom: 18px;
+      border-bottom:1px solid var(--border);
+      margin-bottom: 22px;
+    }
+    h1{
+      font-size: 34px;
+      margin:0;
+      letter-spacing: .5px;
+    }
+    .sub{
+      margin:0;
+      color:var(--muted);
+      font-size: 15px;
+    }
+    .badges{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top: 6px;
+    }
+    .badge{
+      font-size: 12px;
+      padding: 4px 10px;
+      border:1px solid var(--border);
+      border-radius: 999px;
+      background: #fff;
+    }
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    @media (max-width: 760px){
+      .grid{ grid-template-columns: 1fr; }
+    }
+    .card{
+      background: var(--card);
+      border:1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 20px;
+    }
+    .card h2{
+      margin:0 0 10px 0;
+      font-size: 18px;
+    }
+    ul{ margin: 0; padding-left: 18px; }
+    a{ color:var(--accent); text-decoration: none; }
+    a:hover{ text-decoration: underline; }
+    footer{
+      margin-top: 26px;
+      padding-top: 16px;
+      border-top:1px solid var(--border);
+      color:var(--muted);
+      font-size: 12px;
+    }
   </style>
 </head>
 <body>
-  <h1>环玉衡</h1>
-  <p>如果你看到这段文字，说明 index.html 已成功生效。</p>
-  <p>域名：huanyuheng.com</p>
-  <p>站点仓库：huanyuheng.github.io</p>
+  <div class="wrap">
+    <header>
+      <h1>环玉衡</h1>
+      <p class="sub">研究生｜光学与辐射探测｜超表面与微型光谱相关方向</p>
+      <div class="badges">
+        <span class="badge">γ 射线源定位</span>
+        <span class="badge">闪烁体读出</span>
+        <span class="badge">硅光电倍增器</span>
+        <span class="badge">超表面器件</span>
+        <span class="badge">仿真与算法</span>
+      </div>
+    </header>
+
+    <div class="grid">
+      <div class="card">
+        <h2>关于我</h2>
+        <p>
+          这里写一段 3–5 句话的简介：学校、方向、你正在做的核心项目。
+          你也可以补一句你希望合作或交流的主题。
+        </p>
+      </div>
+
+      <div class="card">
+        <h2>研究方向</h2>
+        <ul>
+          <li>针孔/阵列成像与 γ 源定位方法</li>
+          <li>闪烁体 + 硅光电倍增器远端读出</li>
+          <li>超表面光学器件与光谱编码</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>项目/经历（可逐条补充）</h2>
+        <ul>
+          <li>7×7 针孔阵列相机结构设计与误差评估</li>
+          <li>定位算法：重心法、似然/χ² 反演等</li>
+          <li>相关仿真：几何模型与蒙特卡洛链路</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>链接与联系</h2>
+        <ul>
+          <li>个人网站：<a href="https://huanyuheng.com" target="_blank">huanyuheng.com</a></li>
+          <li>GitHub：<a href="https://github.com/huanyuheng" target="_blank">github.com/huanyuheng</a></li>
+          <li>邮箱：yourname@example.com</li>
+        </ul>
+      </div>
+    </div>
+
+    <footer>
+      © <span id="y"></span> 环玉衡 · 基于 GitHub Pages
+    </footer>
+  </div>
+
+  <script>
+    document.getElementById("y").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
-
