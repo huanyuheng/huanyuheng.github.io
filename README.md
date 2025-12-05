@@ -1,12 +1,1 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8" />
-  <title>主页测试</title>
-</head>
-<body>
-  <h1>✅ 主页已更新！</h1>
-  <p>如果你看到这行，说明 main 根目录的 index.html 正在生效。</p>
-</body>
-</html>
-
