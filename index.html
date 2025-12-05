@@ -13,6 +13,7 @@
       --bg:#ffffff;
       --card:#fafafa;
     }
+
     body{
       margin:0;
       background:var(--bg);
@@ -20,31 +21,37 @@
       font-family:"微软雅黑", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       line-height:1.6;
     }
+
     .wrap{
       max-width: 960px;
       margin: 64px auto;
       padding: 0 18px;
     }
+
     header{
       padding-bottom: 18px;
       border-bottom:1px solid var(--border);
       margin-bottom: 22px;
     }
+
     h1{
       font-size: 34px;
       margin:0 0 6px 0;
     }
+
     .sub{
       margin:0;
       color:var(--muted);
       font-size: 15px;
     }
+
     .badges{
       display:flex;
       flex-wrap:wrap;
       gap:8px;
       margin-top: 10px;
     }
+
     .badge{
       font-size: 12px;
       padding: 4px 10px;
@@ -52,27 +59,55 @@
       border-radius: 999px;
       background: #fff;
     }
+
+    /* 新增：页头按钮 */
+    .header-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top: 14px;
+    }
+    .btn{
+      display:inline-block;
+      padding: 8px 14px;
+      border-radius: 10px;
+      border:1px solid var(--border);
+      background:#fff;
+      font-size: 12.5px;
+      color: var(--text);
+    }
+    .btn-primary{
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
     .grid{
       display:grid;
       grid-template-columns: 1fr 1fr;
       gap: 16px;
     }
+
     @media (max-width: 760px){
       .grid{ grid-template-columns: 1fr; }
     }
+
     .card{
       background: var(--card);
       border:1px solid var(--border);
       border-radius: 12px;
       padding: 18px 20px;
     }
+
     .card h2{
       margin:0 0 10px 0;
       font-size: 18px;
     }
+
     ul{ margin: 0; padding-left: 18px; }
+
     a{ color:var(--accent); text-decoration: none; }
     a:hover{ text-decoration: underline; }
+
     footer{
       margin-top: 26px;
       padding-top: 16px;
@@ -87,12 +122,23 @@
     <header>
       <h1>幻欲恒</h1>
       <p class="sub">研究生｜光学与辐射探测｜超表面与微型光谱相关研究</p>
+
       <div class="badges">
         <span class="badge">γ 射线源定位</span>
         <span class="badge">针孔阵列成像</span>
         <span class="badge">闪烁体读出</span>
         <span class="badge">硅光电倍增器</span>
         <span class="badge">超表面器件</span>
+      </div>
+
+      <!-- 一键跳转 B站：把“你的UID”换成你的真实 UID -->
+      <div class="header-actions">
+        <a class="btn btn-primary" href="https://space.bilibili.com/你的UID" target="_blank" rel="noopener">
+          一键跳转我的 B站
+        </a>
+        <a class="btn" href="https://www.bilibili.com" target="_blank" rel="noopener">
+          打开 B站首页
+        </a>
       </div>
     </header>
 
@@ -126,8 +172,9 @@
       <div class="card">
         <h2>链接与联系</h2>
         <ul>
-          <li>GitHub：<a href="https://github.com/huanyuheng" target="_blank">github.com/huanyuheng</a></li>
-          <li>个人网站：<a href="https://huanyuheng.com" target="_blank">huanyuheng.com</a></li>
+          <li>GitHub：<a href="https://github.com/huanyuheng" target="_blank" rel="noopener">github.com/huanyuheng</a></li>
+          <li>个人网站：<a href="https://huanyuheng.com" target="_blank" rel="noopener">huanyuheng.com</a></li>
+          <li>B站：<a href="https://space.bilibili.com/397171654" target="_blank" rel="noopener">我的空间</a></li>
           <li>邮箱：yourname@example.com</li>
         </ul>
       </div>
