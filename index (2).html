@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>某某的个人主页</title>
+
+  <style>
+    body {
+      font-family: "微软雅黑", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f5f5f5;
+    }
+    header {
+      background: #222;
+      color: #fff;
+      padding: 40px 20px;
+      text-align: center;
+    }
+    header h1 {
+      margin: 0 0 10px 0;
+      font-size: 32px;
+    }
+    header p {
+      margin: 0;
+      opacity: 0.8;
+    }
+    main {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 0 16px 40px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+    .card h2 {
+      margin-top: 0;
+      font-size: 22px;
+      border-left: 4px solid #333;
+      padding-left: 10px;
+    }
+    .tag-list span {
+      display: inline-block;
+      margin: 0 8px 8px 0;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid #ddd;
+      font-size: 13px;
+    }
+    .proj-item {
+      margin-bottom: 12px;
+    }
+    .proj-item a {
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .proj-item p {
+      margin: 4px 0 0;
+      font-size: 14px;
+      color: #555;
+    }
+    footer {
+      text-align: center;
+      font-size: 13px;
+      color: #888;
+      padding: 20px 0 30px;
+    }
+    a {
+      color: #0078d4;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>某某的个人主页</h1>
+    <p>光学 / γ 探测 / 元表面 | 研究生在读</p>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2>关于我</h2>
+      <p>这里写你的简单介绍，例如：目前就读于 ×× 大学 ×× 专业，研究方向是 ×××。平时喜欢写代码、做仿真、拍拍照片。</p>
+    </section>
+
+    <section class="card">
+      <h2>研究 & 项目</h2>
+      <div class="proj-item">
+        <a href="#" target="_blank">γ 源定位探测系统设计</a>
+        <p>基于针孔阵列 + 闪烁体阵列 + SiPM 的空间源定位系统，包含前端探头设计、信号采集与重建算法。</p>
+      </div>
+      <div class="proj-item">
+        <a href="#" target="_blank">FDTD 超表面仿真</a>
+        <p>使用 FDTD 软件（如 Lumerical）对谐振型超表面进行建模与优化，关注 Fano 共振与带阻编码应用。</p>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>技能标签</h2>
+      <div class="tag-list">
+        <span>Matlab</span>
+        <span>Python</span>
+        <span>FDTD 仿真</span>
+        <span>γ 探测</span>
+        <span>元表面</span>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>联系方式</h2>
+      <p>邮箱：yourname@example.com</p>
+      <p>GitHub：<a href="https://github.com/你的GitHub用户名" target="_blank">github.com/你的GitHub用户名</a></p>
+    </section>
+  </main>
+
+  <footer>
+    Copyright © <span id="year"></span> 某某. All rights reserved.
+  </footer>
+
+  <script>
+    // 自动显示当前年份
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
