@@ -1,4 +1,13 @@
 title: 幻欲恒
-description: 个人博客
-lang: zh-CN
+description: 学习 / 科研 / 工具 / 网址库
 theme: minima
+
+# 如果你用自定义域名
+url: "https://huanyuheng.com"
+
+# 让顶部导航出现这些页面
+header_pages:
+  - links.md
+
+# 可选：让首页显示摘要
+show_excerpts: true
