@@ -15,7 +15,6 @@ body {
   line-height: 1.7;
 }
 
-/* 链接色统一一下 */
 a {
   color: #2563eb;
   text-decoration: none;
@@ -38,7 +37,6 @@ a:hover {
   box-shadow: 0 4px 18px rgba(15, 23, 42, 0.06);
 }
 
-/* 用一个内部容器控制宽度 */
 .header-inner {
   max-width: 1120px;
   margin: 0 auto;
@@ -49,20 +47,17 @@ a:hover {
   gap: 14px;
 }
 
-/* 如果你在 layout 里没有 header-inner 包裹，也没关系，
-   下面这段保证 minima 默认的 .wrapper 也不会太难看 */
+/* 兼容 minima 默认 wrapper */
 .site-header .wrapper {
   max-width: 1120px;
 }
 
-/* 标题 */
 .site-title {
   font-weight: 700;
   font-size: 22px;
   letter-spacing: 0.5px;
 }
 
-/* 顶部右侧链接（若使用 .top-nav） */
 .top-nav a {
   margin-left: 14px;
   font-weight: 600;
@@ -75,20 +70,21 @@ a:hover {
   text-decoration: none;
 }
 
-/* ====== 主体布局：侧边栏 + 正文 ====== */
+/* ====== 主体布局：左侧栏 + 正文 + 右侧栏 ====== */
+
 .site-shell {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto 40px;
   padding: 28px 18px 40px 18px;
   display: grid;
-  grid-template-columns: 260px minmax(0, 1fr) 260px; /* 左侧栏 + 正文 + 右侧栏 */
+  grid-template-columns: 260px minmax(0, 1fr) 260px;
   gap: 32px;
   align-items: flex-start;
   justify-content: flex-start;
 }
 
-/* 大屏幕时整体稍微向左挪一点，让侧边栏更靠页面左边 */
+/* 大屏一点整体稍微左移，让侧栏更靠边 */
 @media (min-width: 1280px) {
   .site-shell {
     margin-left: 40px;
@@ -96,134 +92,15 @@ a:hover {
   }
 }
 
-/* 把原来的 page-content 包一层栅格布局 */
-.site-shell {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto 40px;
-  padding: 28px 18px 40px 18px;
-  display: grid;
-  grid-template-columns: 260px minmax(0, 1fr) 260px; /* 左侧栏 + 正文 + 右侧栏 */
-  gap: 32px;
-  align-items: flex-start;
-  justify-content: flex-start;
-}
-
-/* 大屏幕时整体稍微向左挪一点，让侧边栏更靠页面左边 */
-@media (min-width: 1280px) {
-  .site-shell {
-    margin-left: 40px;
-    margin-right: auto;
-  }
-}
-
-/* 大屏幕时整体稍微向左挪一点，让侧边栏更靠页面左边 */
-@media (min-width: 1280px) {
-  .site-shell {
-    margin-left: 40px;
-    margin-right: auto;
-  }
-}
-
-
-/* ====== 右侧栏：标签 + 工作 ====== */
-
-.site-rightbar {
-  position: sticky;
-  top: 76px;
-  height: fit-content;
-}
-
-.right-card {
-  border-radius: 14px;
-  background: #ffffff;
-  padding: 14px 14px 10px 14px;
-  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.06);
-  border: 1px solid #e5e7eb;
-}
-
-.right-section + .right-section {
-  border-top: 1px solid #f3f4f6;
-  margin-top: 10px;
-  padding-top: 8px;
-}
-
-.right-title {
-  font-size: 13px;
-  font-weight: 600;
-  color: #4b5563;
-  margin-bottom: 6px;
-}
-
-/* 标签 chips */
-.right-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.tag-chip {
-  padding: 4px 10px;
-  border-radius: 999px;
-  font-size: 12px;
-  border: 1px solid #d1d5db;
-  background: #f9fafb;
-  color: #374151;
-  white-space: nowrap;
-}
-
-.tag-chip:hover {
-  background: #2563eb;
-  color: #ffffff;
-  border-color: #2563eb;
-}
-
-/* 工作文本 */
-.right-work {
-  font-size: 13px;
-  color: #4b5563;
-  line-height: 1.6;
-}
-
-.right-work p {
-  margin: 4px 0;
-}
-
-.right-empty {
-  font-size: 12px;
-  color: #9ca3af;
-}
-
-/* 小屏：隐藏右侧栏，只保留左侧 + 正文 */
-@media (max-width: 1100px) {
-  .site-shell {
-    grid-template-columns: 260px minmax(0, 1fr);
-  }
-
-  .site-rightbar {
-    display: none;
-  }
-}
-
-
-/* 大屏时整体稍微向左挪一点，让侧边栏更靠左边缘 */
-@media (min-width: 1280px) {
-  .site-shell {
-    margin-left: 60px;
-    margin-right: auto;
-  }
-}
-
-/* 如果你在页面里没写 .site-shell，
-   minima 默认的 .page-content .wrapper 也稍微收窄一点 */
+/* minima 的 wrapper 收窄一点 */
 .page-content .wrapper {
-  max-width: 1120px;
+  max-width: 1200px;
 }
 
-/* 主内容区 */
+/* 中间正文列 */
 .site-main {
   display: flex;
-  justify-content: center;       /* 正文在这一列里居中 */
+  justify-content: center;
 }
 
 .site-main .content-wrapper {
@@ -232,7 +109,7 @@ a:hover {
   margin: 0 auto;
 }
 
-/* ====== 侧边栏样式 ====== */
+/* ====== 左侧栏样式 ====== */
 
 .site-sidebar {
   position: sticky;
@@ -274,15 +151,79 @@ a:hover {
   transform: translateY(-1px);
 }
 
-/* 当前页高亮，可在 HTML 里给当前链接加 active 类 */
 .sidebar-link.active {
   background: #2563eb;
   color: #ffffff;
 }
 
-/* ====== 内容区细节：文章列表卡片化 ====== */
+/* ====== 右侧栏：标签 + 工作 ====== */
 
-/* 首页 / 归档的列表 */
+.site-rightbar {
+  position: sticky;
+  top: 76px;
+  height: fit-content;
+}
+
+.right-card {
+  border-radius: 14px;
+  background: #ffffff;
+  padding: 14px 14px 10px 14px;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.06);
+  border: 1px solid #e5e7eb;
+}
+
+.right-section + .right-section {
+  border-top: 1px solid #f3f4f6;
+  margin-top: 10px;
+  padding-top: 8px;
+}
+
+.right-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #4b5563;
+  margin-bottom: 6px;
+}
+
+.right-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tag-chip {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  border: 1px solid #d1d5db;
+  background: #f9fafb;
+  color: #374151;
+  white-space: nowrap;
+}
+
+.tag-chip:hover {
+  background: #2563eb;
+  color: #ffffff;
+  border-color: #2563eb;
+}
+
+.right-work {
+  font-size: 13px;
+  color: #4b5563;
+  line-height: 1.6;
+}
+
+.right-work p {
+  margin: 4px 0;
+}
+
+.right-empty {
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+/* ====== 文章列表卡片化 ====== */
+
 ul.post-list {
   list-style: none;
   margin: 0;
@@ -313,16 +254,17 @@ ul.post-list > li .post-link {
   font-size: 1.05rem;
 }
 
-/* 单篇文章正文卡片 */
-.post, .page {
+/* 单篇文章 / 页面卡片 */
+.post,
+.page {
   background: #ffffff;
   border-radius: 14px;
   padding: 1.6rem 1.8rem 2rem;
   box-shadow: 0 16px 40px rgba(15, 23, 42, 0.06);
 }
 
-/* 标题间距更舒适一点 */
-.post-title, .page-title {
+.post-title,
+.page-title {
   margin-top: 0.2rem;
   margin-bottom: 0.8rem;
 }
@@ -338,38 +280,10 @@ ul.post-list > li .post-link {
 }
 
 .site-footer .wrapper {
-  max-width: 1120px;
+  max-width: 1200px;
 }
 
-/* ====== 移动端：自动变成单栏 ====== */
-
-@media (max-width: 900px) {
-  .site-shell {
-    grid-template-columns: 1fr;
-    padding-top: 18px;
-  }
-
-  .site-sidebar {
-    position: static;
-    order: -1;
-    margin-bottom: 4px;
-  }
-
-  .top-nav {
-    display: none; /* 手机上使用侧边栏即可 */
-  }
-
-  .post, .page {
-    border-radius: 10px;
-    padding: 1.2rem 1.2rem 1.5rem;
-  }
-
-  ul.post-list > li {
-    border-radius: 10px;
-  }
-}
-
-/* ====== links 页面：按钮风格链接 ====== */
+/* ====== links 页面：按钮风格 ====== */
 
 .link-grid {
   display: flex;
@@ -410,13 +324,52 @@ ul.post-list > li .post-link {
   box-shadow: 0 12px 30px rgba(37, 99, 235, 0.45);
 }
 
-/* 小屏幕上按钮一行一个，更好点按 */
-@media (max-width: 640px) {
+/* 小屏幕：两列变两栏 / 单栏 & 隐藏右侧栏 */
+
+@media (max-width: 1100px) {
+  .site-shell {
+    grid-template-columns: 260px minmax(0, 1fr);
+  }
+
+  .site-rightbar {
+    display: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .site-shell {
+    grid-template-columns: 1fr;
+    padding-top: 18px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .site-sidebar {
+    position: static;
+    order: -1;
+    margin-bottom: 4px;
+  }
+
+  .top-nav {
+    display: none;
+  }
+
+  .post,
+  .page {
+    border-radius: 10px;
+    padding: 1.2rem 1.2rem 1.5rem;
+  }
+
+  ul.post-list > li {
+    border-radius: 10px;
+  }
+
+  .link-button {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
   .link-grid {
     flex-direction: column;
-  }
-  .link-button {
-    justify-content: flex-start;
-    width: 100%;
   }
 }
