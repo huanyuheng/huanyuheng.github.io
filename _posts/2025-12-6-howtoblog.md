@@ -1,5 +1,10 @@
+---
+layout: post
+title: 可持续新增文章的博客
+date: 2025-12-6- 22:21:05 +0800
+---
 
- 幻欲恒 GitHub Pages 博客发布方法
+幻欲恒 GitHub Pages 博客发布方法
 > 目标：把个人站点从“单页 index.html”切换为“可持续新增文章的博客”。
 
 ---
