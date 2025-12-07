@@ -1,9 +1,3 @@
----
----
-
-/* 先加载 minima 主题的默认样式 */
-@import "minima";
-
 /* ====== 全局基础样式 ====== */
 
 body {
@@ -13,6 +7,7 @@ body {
   background-color: #f3f4f6;
   color: #111827;
   line-height: 1.7;
+  margin: 0;
 }
 
 a {
@@ -37,27 +32,20 @@ a:hover {
   box-shadow: 0 4px 18px rgba(15, 23, 42, 0.06);
 }
 
-.header-inner {
-  max-width: 1120px;
-  margin: 0 auto;
-  padding: 12px 18px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-}
-
 /* 兼容 minima 默认 wrapper */
 .site-header .wrapper {
   max-width: 1120px;
+  margin: 0 auto;
 }
 
+/* 标题 */
 .site-title {
   font-weight: 700;
   font-size: 22px;
   letter-spacing: 0.5px;
 }
 
+/* 右上角导航 */
 .top-nav a {
   margin-left: 14px;
   font-weight: 600;
@@ -72,32 +60,28 @@ a:hover {
 
 /* ====== 主体布局：左侧栏 + 正文 + 右侧栏 ====== */
 
+/* 去掉 minima 的内容宽度限制，让我们自己控制 */
+.page-content .wrapper {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* 三栏布局：左右靠边，中间内容适中 */
 .site-shell {
   width: 100%;
-  max-width: 1200px;
-  margin: 0 auto 40px;
-  padding: 28px 18px 40px 18px;
+  max-width: none;
+  margin: 0;
+  padding: 24px 40px 40px 40px;       /* 距离左右边各 40px */
+  box-sizing: border-box;
+
   display: grid;
-  grid-template-columns: 260px minmax(0, 1fr) 260px;
-  gap: 32px;
+  grid-template-columns: 260px minmax(680px, 1fr) 260px;
+  column-gap: 28px;
   align-items: flex-start;
-  justify-content: flex-start;
 }
 
-/* 大屏一点整体稍微左移，让侧栏更靠边 */
-@media (min-width: 1280px) {
-  .site-shell {
-    margin-left: 40px;
-    margin-right: auto;
-  }
-}
-
-/* minima 的 wrapper 收窄一点 */
-.page-content .wrapper {
-  max-width: 1200px;
-}
-
-/* 中间正文列 */
+/* 中间正文列居中一些（文字宽度控制在 780 左右） */
 .site-main {
   display: flex;
   justify-content: center;
@@ -106,7 +90,6 @@ a:hover {
 .site-main .content-wrapper {
   max-width: 780px;
   width: 100%;
-  margin: 0 auto;
 }
 
 /* ====== 左侧栏样式 ====== */
@@ -185,6 +168,7 @@ a:hover {
   margin-bottom: 6px;
 }
 
+/* 标签 chips */
 .right-tags {
   display: flex;
   flex-wrap: wrap;
@@ -207,6 +191,7 @@ a:hover {
   border-color: #2563eb;
 }
 
+/* 工作文本 */
 .right-work {
   font-size: 13px;
   color: #4b5563;
@@ -222,7 +207,7 @@ a:hover {
   color: #9ca3af;
 }
 
-/* ====== 文章列表卡片化 ====== */
+/* ====== 文章列表卡片 ====== */
 
 ul.post-list {
   list-style: none;
@@ -254,7 +239,7 @@ ul.post-list > li .post-link {
   font-size: 1.05rem;
 }
 
-/* 单篇文章 / 页面卡片 */
+/* 单篇文章 / page 卡片 */
 .post,
 .page {
   background: #ffffff;
@@ -280,10 +265,11 @@ ul.post-list > li .post-link {
 }
 
 .site-footer .wrapper {
-  max-width: 1200px;
+  max-width: 1120px;
+  margin: 0 auto;
 }
 
-/* ====== links 页面：按钮风格 ====== */
+/* ====== links 页面：按钮风格链接 ====== */
 
 .link-grid {
   display: flex;
@@ -324,11 +310,13 @@ ul.post-list > li .post-link {
   box-shadow: 0 12px 30px rgba(37, 99, 235, 0.45);
 }
 
-/* 小屏幕：两列变两栏 / 单栏 & 隐藏右侧栏 */
+/* ====== 响应式：中等屏隐藏右侧栏，小屏单栏 ====== */
 
-@media (max-width: 1100px) {
+/* 1200 以下：隐藏右侧栏，仅保留左侧栏 + 正文 */
+@media (max-width: 1200px) {
   .site-shell {
     grid-template-columns: 260px minmax(0, 1fr);
+    padding: 24px 24px 36px 24px;
   }
 
   .site-rightbar {
@@ -336,22 +324,17 @@ ul.post-list > li .post-link {
   }
 }
 
+/* 900 以下：左右栏都叠到上面，单列显示 */
 @media (max-width: 900px) {
   .site-shell {
     grid-template-columns: 1fr;
-    padding-top: 18px;
-    margin-left: auto;
-    margin-right: auto;
+    padding: 18px 16px 28px 16px;
   }
 
   .site-sidebar {
     position: static;
     order: -1;
     margin-bottom: 4px;
-  }
-
-  .top-nav {
-    display: none;
   }
 
   .post,
