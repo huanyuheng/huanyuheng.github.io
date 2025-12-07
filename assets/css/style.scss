@@ -79,13 +79,23 @@ a:hover {
 
 /* 把原来的 page-content 包一层栅格布局 */
 .site-shell {
+  width: 100%;
   max-width: 1120px;
-  margin: 0 auto;
+  margin: 0 auto 40px;
   padding: 28px 18px 40px 18px;
   display: grid;
   grid-template-columns: 260px minmax(0, 1fr);
-  gap: 26px;
+  gap: 32px;
   align-items: flex-start;
+  justify-content: flex-start;   /* 网格靠容器左边 */
+}
+
+/* 大屏时整体稍微向左挪一点，让侧边栏更靠左边缘 */
+@media (min-width: 1280px) {
+  .site-shell {
+    margin-left: 60px;
+    margin-right: auto;
+  }
 }
 
 /* 如果你在页面里没写 .site-shell，
@@ -97,12 +107,13 @@ a:hover {
 /* 主内容区 */
 .site-main {
   display: flex;
-  justify-content: flex-start;   /* 正文从左对齐 */
+  justify-content: center;       /* 正文在这一列里居中 */
 }
 
 .site-main .content-wrapper {
-  max-width: 820px;
+  max-width: 780px;
   width: 100%;
+  margin: 0 auto;
 }
 
 /* ====== 侧边栏样式 ====== */
