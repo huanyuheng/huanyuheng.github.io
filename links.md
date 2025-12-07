@@ -1,27 +1,18 @@
+title: 幻欲恒
+description: 学习 / 科研 / 工具 / 网址库
+theme: minima
 
----
-layout: page
-title: 网站库
-permalink: /links/
----
+# 先用 GitHub Pages 的网址就行
+url: "https://huanyuheng.github.io"
 
-## 学习
+# 顶部导航显示哪些页面（按你仓库里的文件名来）
+header_pages:
+  - index.md
+  - links.md
+  - about.md
+  - archive.md
 
-<div class="link-grid">
-  <a class="link-button" href="https://scholar.google.com" target="_blank">Google Scholar</a>
-  <a class="link-button" href="https://www.zotero.org" target="_blank">Zotero</a>
-</div>
+# 首页文章显示摘要
+show_excerpts: true
 
-## 科研 / 工具
-
-<div class="link-grid">
-  <a class="link-button" href="https://github.com" target="_blank">GitHub</a>
-  <a class="link-button" href="https://www.overleaf.com" target="_blank">Overleaf</a>
-</div>
-
-## 娱乐
-
-<div class="link-grid">
-  <a class="link-button" href="https://你的娱乐链接" target="_blank">哔哩哔哩</a>
-</div>
 
