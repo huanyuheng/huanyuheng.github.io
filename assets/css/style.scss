@@ -1,126 +1,235 @@
 ---
 ---
 
+/* 先加载 minima 主题的默认样式 */
 @import "minima";
 
-/* ====== 你的自定义布局与导航 ====== */
+/* ====== 全局基础样式 ====== */
 
-.site-header{
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  background: #ffffff;
-  border-bottom: 1px solid #eee;
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+               "PingFang SC", "Hiragino Sans GB",
+               "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  background-color: #f3f4f6;
+  color: #111827;
+  line-height: 1.7;
 }
 
-.header-inner{
-  max-width: 1100px;
+/* 链接色统一一下 */
+a {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #1d4ed8;
+  text-decoration: underline;
+}
+
+/* ====== 顶部导航条 ====== */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: #ffffffcc;
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid #e5e7eb;
+  box-shadow: 0 4px 18px rgba(15, 23, 42, 0.06);
+}
+
+/* 用一个内部容器控制宽度 */
+.header-inner {
+  max-width: 1120px;
   margin: 0 auto;
-  padding: 14px 18px;
+  padding: 12px 18px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 14px;
 }
 
-.site-title{
+/* 如果你在 layout 里没有 header-inner 包裹，也没关系，
+   下面这段保证 minima 默认的 .wrapper 也不会太难看 */
+.site-header .wrapper {
+  max-width: 1120px;
+}
+
+/* 标题 */
+.site-title {
   font-weight: 700;
   font-size: 22px;
   letter-spacing: 0.5px;
 }
 
-.top-nav a{
+/* 顶部右侧链接（若使用 .top-nav） */
+.top-nav a {
   margin-left: 14px;
   font-weight: 600;
-  padding: 6px 8px;
-  border-radius: 6px;
+  padding: 6px 10px;
+  border-radius: 999px;
 }
 
-.top-nav a:hover{
-  background: #f2f6ff;
+.top-nav a:hover {
+  background: #e5edff;
   text-decoration: none;
 }
 
-/* 主体布局 */
-.site-shell{
-  width: 100%;
-  max-width: none;
-  margin: 0;
-  padding: 28px 18px 10px 18px;
+/* ====== 主体布局：侧边栏 + 正文 ====== */
+
+/* 把原来的 page-content 包一层栅格布局 */
+.site-shell {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 28px 18px 40px 18px;
   display: grid;
-  grid-template-columns: 240px 1fr;
-  gap: 22px;
+  grid-template-columns: 260px minmax(0, 1fr);
+  gap: 26px;
+  align-items: flex-start;
 }
 
-.site-main{
+/* 如果你在页面里没写 .site-shell，
+   minima 默认的 .page-content .wrapper 也稍微收窄一点 */
+.page-content .wrapper {
+  max-width: 1120px;
+}
+
+/* 主内容区 */
+.site-main {
   display: flex;
-  justify-content: flex-start;  /* 正文从左开始 */
+  justify-content: flex-start;   /* 正文从左对齐 */
 }
 
-.site-main .content-wrapper{
+.site-main .content-wrapper {
   max-width: 820px;
   width: 100%;
 }
 
+/* ====== 侧边栏样式 ====== */
 
-/* 侧边栏 */
-.site-sidebar{
+.site-sidebar {
   position: sticky;
-  top: 70px;
+  top: 76px;
   height: fit-content;
-  border: 1px solid #eee;
-  border-radius: 12px;
-  background: #fafafa;
-  padding: 14px 14px 6px 14px;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  background: linear-gradient(145deg, #f9fafb, #f3f4f6);
+  padding: 16px 14px 10px 14px;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.06);
 }
 
-.sidebar-title{
-  font-size: 12px;
-  color: #666;
-  margin: 8px 0 6px 0;
-  letter-spacing: 0.5px;
+.sidebar-title {
+  font-size: 11px;
+  color: #6b7280;
+  margin: 6px 0 4px 2px;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
 }
 
-.sidebar-section{
+.sidebar-section {
   margin-bottom: 14px;
 }
 
-.sidebar-link{
+.sidebar-link {
   display: block;
   padding: 8px 10px;
   margin: 2px 0;
-  border-radius: 8px;
+  border-radius: 9px;
   font-weight: 600;
+  font-size: 14px;
+  color: #111827;
+  transition: background 0.12s ease, transform 0.08s ease;
 }
 
-.sidebar-link:hover{
+.sidebar-link:hover {
   background: #ffffff;
   text-decoration: none;
+  transform: translateY(-1px);
 }
 
-/* 内容区 */
-.site-main .content-wrapper{
-  max-width: 820px;
+/* 当前页高亮，可在 HTML 里给当前链接加 active 类 */
+.sidebar-link.active {
+  background: #2563eb;
+  color: #ffffff;
 }
 
-/* 页脚 */
-.site-footer{
-  margin-top: 30px;
-  border-top: 1px solid #eee;
-  color: #777;
+/* ====== 内容区细节：文章列表卡片化 ====== */
+
+/* 首页 / 归档的列表 */
+ul.post-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+ul.post-list > li {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 1.2rem 1.5rem 1.1rem;
+  margin-bottom: 1.3rem;
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.06);
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+ul.post-list > li:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+}
+
+ul.post-list > li .post-meta {
+  font-size: 0.82rem;
+  color: #6b7280;
+  margin-bottom: 0.35rem;
+}
+
+ul.post-list > li .post-link {
+  font-size: 1.05rem;
+}
+
+/* 单篇文章正文卡片 */
+.post, .page {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 1.6rem 1.8rem 2rem;
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.06);
+}
+
+/* 标题间距更舒适一点 */
+.post-title, .page-title {
+  margin-top: 0.2rem;
+  margin-bottom: 0.8rem;
+}
+
+/* ====== 页脚 ====== */
+
+.site-footer {
+  margin-top: 24px;
+  border-top: 1px solid #e5e7eb;
+  color: #6b7280;
   font-size: 12px;
   padding: 16px 0 30px 0;
 }
 
-/* 移动端：自动变成单栏 */
-@media (max-width: 900px){
-  .site-shell{
-    grid-template-columns: 1fr;
-  }
-  .site-sidebar{
-    position: static;
-  }
-  .top-nav{
-    display: none; /* 手机上用侧边栏即可 */
-  }
+.site-footer .wrapper {
+  max-width: 1120px;
 }
+
+/* ====== 移动端：自动变成单栏 ====== */
+
+@media (max-width: 900px) {
+  .site-shell {
+    grid-template-columns: 1fr;
+    padding-top: 18px;
+  }
+
+  .site-sidebar {
+    position: static;
+    order: -1;
+    margin-bottom: 4px;
+  }
+
+  .top-nav {
+    display: none; /* 手机上使用侧边栏即可 */
+  }
+
+  .pos
