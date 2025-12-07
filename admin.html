@@ -4,204 +4,765 @@ title: 后台发布
 permalink: /admin/
 ---
 
-<div class="page admin-page">
-  <h1>发布新文章</h1>
-
-  <p style="color:#6b7280;font-size:14px;">
-    第一次使用先在下面输入你的 GitHub Token，点击“保存 Token（只保存在本机）”。
-    之后就可以直接在网页里写文章，一键同步到仓库的 <code>_posts</code>。
+<div class="admin-page">
+  <h1 class="admin-title">博客后台</h1>
+  <p class="admin-desc">
+    在这里可以：① 新建文章；② 从左侧列表选择文章并编辑；③ 修改右侧栏「工作」内容。
   </p>
 
-  <div style="margin:16px 0;padding:12px 14px;border-radius:10px;background:#f9fafb;border:1px solid #e5e7eb;">
-    <label style="font-size:14px;color:#374151;">GitHub Token</label><br>
-    <input id="token-input" type="password" style="margin-top:6px;width:100%;max-width:420px;padding:8px 10px;border-radius:8px;border:1px solid #d1d5db;">
-    <button id="save-token" style="margin-left:8px;padding:8px 14px;border-radius:999px;border:none;background:#2563eb;color:#fff;font-size:14px;cursor:pointer;">
-      保存 Token（只保存在本机）
-    </button>
-    <span id="token-status" style="margin-left:8px;font-size:13px;color:#16a34a;"></span>
+  <!-- Token 设置卡片 -->
+  <div class="admin-card admin-token-card">
+    <div class="admin-token-header">
+      <div>
+        <div class="admin-token-title">GitHub Token</div>
+        <div class="admin-token-sub">只保存在本机浏览器，用来调用 GitHub API。</div>
+      </div>
+      <button id="post-refresh" class="admin-btn-outline">刷新文章列表</button>
+    </div>
+    <div class="admin-token-body">
+      <input id="token-input" type="password"
+             placeholder="第一次使用先在这里粘贴你的个人访问 Token（classic，repo 权限）"
+             class="admin-input admin-token-input">
+      <button id="save-token" class="admin-btn-primary">保存 Token（仅本机）</button>
+      <span id="token-status" class="admin-status"></span>
+    </div>
   </div>
 
-  <hr style="margin:18px 0 20px 0;border:none;border-top:1px solid #e5e7eb;">
+  <!-- 主体：左侧文章列表 + 右侧编辑器 -->
+  <div class="admin-shell">
+    <!-- 左侧：文章列表 -->
+    <div class="admin-card admin-left">
+      <div class="admin-left-header">
+        <h2 class="admin-section-title">文章列表</h2>
+      </div>
 
-  <form id="post-form">
-    <div style="margin-bottom:12px;">
-      <label>标题（title）</label><br>
-      <input id="post-title" type="text" required
-             style="margin-top:4px;width:100%;max-width:420px;padding:8px 10px;border-radius:8px;border:1px solid #d1d5db;">
-    </div>
+      <input id="post-search" class="admin-input admin-search"
+             placeholder="搜索标题或文件名（模糊匹配）">
 
-    <div style="margin-bottom:12px;">
-      <label>日期（YYYY-MM-DD）</label><br>
-      <input id="post-date" type="text"
-             style="margin-top:4px;width:160px;padding:8px 10px;border-radius:8px;border:1px solid #d1d5db;">
-    </div>
+      <div id="post-list-status" class="admin-status-small">尚未加载文章列表。</div>
 
-    <div style="margin-bottom:12px;">
-      <label>文件名中的 slug（可空，例如 my-first-post）</label><br>
-      <input id="post-slug" type="text"
-             style="margin-top:4px;width:100%;max-width:420px;padding:8px 10px;border-radius:8px;border:1px solid #d1d5db;">
-      <div style="font-size:12px;color:#6b7280;margin-top:2px;">
-        最终文件名会是：<code>YYYY-MM-DD-slug.md</code>，不写就自动用时间戳。
+      <div id="post-list" class="admin-post-list">
+        <!-- 动态填充 -->
       </div>
     </div>
 
-    <div style="margin-bottom:12px;">
-      <label>标签（tags，用英文逗号分隔，可选）</label><br>
-      <input id="post-tags" type="text"
-             placeholder="gamma-ray, metasurface"
-             style="margin-top:4px;width:100%;max-width:420px;padding:8px 10px;border-radius:8px;border:1px solid #d1d5db;">
-    </div>
+    <!-- 右侧：文章编辑器 -->
+    <div class="admin-card admin-right">
+      <div class="admin-right-header">
+        <h2 id="editor-title" class="admin-section-title">新建文章</h2>
+        <button id="post-new" class="admin-btn-outline-small">新建空白</button>
+      </div>
+      <div id="current-file-info" class="admin-current-file"></div>
 
-    <div style="margin-bottom:12px;">
-      <label>正文内容（支持 Markdown）</label><br>
-      <textarea id="post-body" rows="18"
-                style="margin-top:4px;width:100%;max-width:100%;padding:10px 12px;border-radius:10px;border:1px solid #d1d5db;font-family:monospace,Consolas,Menlo;"></textarea>
-    </div>
+      <form id="post-form" class="admin-form">
+        <div class="admin-form-row">
+          <label>标题（title）</label>
+          <input id="post-title" type="text" required class="admin-input">
+        </div>
 
-    <button type="submit"
-            style="padding:10px 24px;border-radius:999px;border:none;background:#16a34a;color:#fff;font-size:15px;font-weight:600;cursor:pointer;">
-      🚀 发布到 GitHub
-    </button>
-    <span id="post-status" style="margin-left:10px;font-size:14px;color:#6b7280;"></span>
-  </form>
+        <div class="admin-form-row">
+          <label>日期（YYYY-MM-DD）</label>
+          <input id="post-date" type="text" class="admin-input admin-input-short">
+        </div>
+
+        <div class="admin-form-row">
+          <label>文件名 slug（可选，例如 <code>my-first-post</code>）</label>
+          <input id="post-slug" type="text" class="admin-input">
+          <div class="admin-help">
+            最终文件名：<code>YYYY-MM-DD-slug.md</code>。不写 slug 则自动使用时间戳。
+          </div>
+        </div>
+
+        <div class="admin-form-row">
+          <label>标签（tags，用英文逗号分隔，可选）</label>
+          <input id="post-tags" type="text" placeholder="gamma-ray, metasurface"
+                 class="admin-input">
+        </div>
+
+        <div class="admin-form-row">
+          <label>正文内容（支持 Markdown）</label>
+          <textarea id="post-body" rows="18" class="admin-textarea"></textarea>
+        </div>
+
+        <button type="submit" class="admin-btn-save">
+          🚀 保存到 GitHub
+        </button>
+        <span id="post-status" class="admin-status"></span>
+      </form>
+    </div>
+  </div>
+
+  <!-- 下方：右侧栏「工作」内容编辑 -->
+  <div class="admin-card admin-work">
+    <div class="admin-work-header">
+      <div>
+        <h2 class="admin-section-title">右侧栏「工作」内容</h2>
+        <div class="admin-token-sub">
+          对应仓库文件 <code>_includes/work.md</code>，用于博客右边卡片里的工作介绍。
+        </div>
+      </div>
+      <button id="work-save" class="admin-btn-outline-small">保存工作内容</button>
+    </div>
+    <textarea id="work-body" rows="6" class="admin-textarea"></textarea>
+    <span id="work-status" class="admin-status"></span>
+  </div>
 </div>
 
+<!-- ====== 后台专用样式（复用博客卡片风格） ====== -->
+<style>
+  .admin-page {
+    max-width: 1200px;
+    margin: 0 auto 40px;
+  }
+
+  .admin-title {
+    margin-bottom: 4px;
+  }
+
+  .admin-desc {
+    font-size: 14px;
+    color: #6b7280;
+    margin-bottom: 14px;
+  }
+
+  .admin-card {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 16px 18px 18px;
+    box-shadow: 0 16px 40px rgba(15, 23, 42, 0.06);
+    border: 1px solid #e5e7eb;
+  }
+
+  .admin-token-card {
+    margin-bottom: 18px;
+  }
+
+  .admin-shell {
+    display: grid;
+    grid-template-columns: 320px minmax(0, 1fr);
+    gap: 22px;
+    margin-bottom: 18px;
+  }
+
+  .admin-left, .admin-right, .admin-work {
+    align-self: flex-start;
+  }
+
+  .admin-section-title {
+    font-size: 16px;
+    margin: 0;
+  }
+
+  .admin-token-header,
+  .admin-right-header,
+  .admin-work-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+
+  .admin-token-title {
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .admin-token-sub {
+    font-size: 12px;
+    color: #6b7280;
+  }
+
+  .admin-token-body {
+    margin-top: 4px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .admin-input {
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1px solid #d1d5db;
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .admin-input-short {
+    width: 160px;
+  }
+
+  .admin-token-input {
+    flex: 1;
+    min-width: 220px;
+  }
+
+  .admin-textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid #d1d5db;
+    font-family: monospace, Consolas, Menlo, "SF Mono", "Fira Code";
+    font-size: 13px;
+  }
+
+  .admin-btn-primary,
+  .admin-btn-save,
+  .admin-btn-outline,
+  .admin-btn-outline-small {
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .admin-btn-primary {
+    padding: 8px 14px;
+    background: #2563eb;
+    color: #ffffff;
+  }
+
+  .admin-btn-save {
+    margin-top: 6px;
+    padding: 8px 20px;
+    background: #16a34a;
+    color: #ffffff;
+    font-size: 15px;
+  }
+
+  .admin-btn-outline {
+    padding: 7px 12px;
+    background: #ffffff;
+    border: 1px solid #d1d5db;
+    color: #374151;
+  }
+
+  .admin-btn-outline-small {
+    padding: 5px 10px;
+    background: #ffffff;
+    border: 1px solid #d1d5db;
+    color: #374151;
+    font-size: 13px;
+  }
+
+  .admin-status {
+    font-size: 13px;
+    margin-left: 6px;
+    color: #6b7280;
+  }
+
+  .admin-status-small {
+    font-size: 12px;
+    color: #9ca3af;
+    margin-top: 6px;
+  }
+
+  .admin-left-header {
+    margin-bottom: 8px;
+  }
+
+  .admin-search {
+    margin-bottom: 6px;
+  }
+
+  .admin-post-list {
+    margin-top: 4px;
+    max-height: 520px;
+    overflow-y: auto;
+    padding-right: 4px;
+  }
+
+  .admin-post-item {
+    padding: 8px 10px;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    margin-bottom: 6px;
+    cursor: pointer;
+    background: #f9fafb;
+  }
+
+  .admin-post-item:hover {
+    background: #2563eb;
+    color: #ffffff;
+    border-color: #2563eb;
+  }
+
+  .admin-post-title {
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .admin-post-meta {
+    font-size: 12px;
+    margin-top: 2px;
+    opacity: 0.8;
+  }
+
+  .admin-current-file {
+    font-size: 12px;
+    color: #6b7280;
+    margin-bottom: 6px;
+  }
+
+  .admin-form-row {
+    margin-bottom: 10px;
+  }
+
+  .admin-form-row label {
+    display: block;
+    font-size: 13px;
+    margin-bottom: 4px;
+  }
+
+  .admin-help {
+    font-size: 12px;
+    color: #9ca3af;
+    margin-top: 2px;
+  }
+
+  .admin-work {
+    margin-top: 4px;
+  }
+
+  @media (max-width: 900px) {
+    .admin-shell {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<!-- ====== 后台逻辑脚本：文章列表 + 编辑 + 工作区编辑 ====== -->
 <script>
-  // ===== 基本配置 =====
-  const OWNER = "huanyuheng";
-  const REPO  = "huanyuheng.github.io";
-  const BRANCH = "main"; // 如果以后不是 main，可以改这里
+  (function() {
+    const OWNER  = "huanyuheng";
+    const REPO   = "huanyuheng.github.io";
+    const BRANCH = "main";
+    const API_BASE = "https://api.github.com/repos/" + OWNER + "/" + REPO + "/contents";
+    const TOKEN_KEY = "blog_admin_token";
 
-  const TOKEN_KEY = "blog_admin_token";
+    let allPosts = [];
+    let currentEditing = null;   // { path, sha, filename }
+    let workSha = null;
 
-  function getToken() {
-    return localStorage.getItem(TOKEN_KEY) || "";
-  }
-
-  function setToken(token) {
-    localStorage.setItem(TOKEN_KEY, token);
-  }
-
-  // 初始化：如果本地已有 token，给个提示
-  const tokenInput  = document.getElementById("token-input");
-  const tokenStatus = document.getElementById("token-status");
-
-  if (getToken()) {
-    tokenStatus.textContent = "已在本机保存 Token";
-  }
-
-  document.getElementById("save-token").onclick = function () {
-    const t = tokenInput.value.trim();
-    if (!t) {
-      alert("请先粘贴 GitHub Token");
-      return;
-    }
-    setToken(t);
-    tokenStatus.style.color = "#16a34a";
-    tokenStatus.textContent = "Token 已保存（仅本机浏览器）";
-    tokenInput.value = "";
-  };
-
-  // 默认日期：今天
-  const dateInput = document.getElementById("post-date");
-  const today = new Date();
-  const yyyy = today.getFullYear();
-  const mm = String(today.getMonth() + 1).padStart(2, "0");
-  const dd = String(today.getDate()).padStart(2, "0");
-  dateInput.value = `${yyyy}-${mm}-${dd}`;
-
-  // 表单提交：调用 GitHub API 创建 _posts 里的文件
-  document.getElementById("post-form").addEventListener("submit", async function (e) {
-    e.preventDefault();
-
-    const token = getToken();
-    if (!token) {
-      alert("请先在上面保存 GitHub Token。");
-      return;
+    function getToken() {
+      return localStorage.getItem(TOKEN_KEY) || "";
     }
 
-    const title = document.getElementById("post-title").value.trim();
-    const date  = document.getElementById("post-date").value.trim();
-    let slug    = document.getElementById("post-slug").value.trim();
-    const tagsStr = document.getElementById("post-tags").value.trim();
-    const body  = document.getElementById("post-body").value;
-
-    if (!title || !date || !body) {
-      alert("标题 / 日期 / 正文是必填的。");
-      return;
+    function setToken(t) {
+      localStorage.setItem(TOKEN_KEY, t);
     }
 
-    // 生成 slug
-    if (!slug) {
-      slug = "post-" + Date.now();
+    function encodeBase64(str) {
+      return btoa(unescape(encodeURIComponent(str)));
     }
 
-    const filename = `${date}-${slug}.md`;
-    const path = `_posts/${filename}`;
+    function decodeBase64(b64) {
+      return decodeURIComponent(escape(atob(b64.replace(/\n/g, ""))));
+    }
 
-    // tags: 用逗号分隔
-    let tagsYaml = "";
-    if (tagsStr) {
-      const arr = tagsStr.split(",").map(s => s.trim()).filter(Boolean);
-      if (arr.length > 0) {
-        tagsYaml = "tags: [" + arr.join(", ") + "]\n";
+    function todayStr() {
+      const d = new Date();
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, "0");
+      const dd = String(d.getDate()).padStart(2, "0");
+      return y + "-" + m + "-" + dd;
+    }
+
+    async function apiGet(path) {
+      const url = API_BASE + "/" + encodeURIComponent(path) + "?ref=" + encodeURIComponent(BRANCH);
+      const headers = { "Accept": "application/vnd.github+json" };
+      const token = getToken();
+      if (token) {
+        headers["Authorization"] = "token " + token;
       }
+      const res = await fetch(url, { headers });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        const err = new Error(data.message || "GitHub GET error");
+        err.response = data;
+        err.status = res.status;
+        throw err;
+      }
+      return res.json();
     }
 
-    // 生成 Jekyll front-matter
-    const now = new Date();
-    const hh = String(now.getHours()).padStart(2, "0");
-    const mi = String(now.getMinutes()).padStart(2, "0");
-    const ss = String(now.getSeconds()).padStart(2, "0");
-    const dateTime = `${date} ${hh}:${mi}:${ss} +0800`;
-
-    const frontMatter =
-`---
-layout: post
-title: ${JSON.stringify(title).slice(1,-1)}
-date: ${dateTime}
-${tagsYaml}---
-`;
-
-    const fullContent = frontMatter + "\n" + body + "\n";
-
-    const b64 = btoa(unescape(encodeURIComponent(fullContent)));
-
-    const statusSpan = document.getElementById("post-status");
-    statusSpan.style.color = "#6b7280";
-    statusSpan.textContent = "正在提交到 GitHub…";
-
-    try {
-      const res = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${encodeURIComponent(path)}`, {
+    async function apiPut(path, bodyObj) {
+      const token = getToken();
+      if (!token) {
+        alert("请先在上面保存 GitHub Token。");
+        throw new Error("No token");
+      }
+      const url = API_BASE + "/" + encodeURIComponent(path);
+      const headers = {
+        "Accept": "application/vnd.github+json",
+        "Content-Type": "application/json",
+        "Authorization": "token " + token
+      };
+      const res = await fetch(url, {
         method: "PUT",
-        headers: {
-          "Authorization": "token " + token,
-          "Accept": "application/vnd.github+json"
-        },
-        body: JSON.stringify({
-          message: `Add post ${filename}`,
-          content: b64,
-          branch: BRANCH
-        })
+        headers,
+        body: JSON.stringify(bodyObj)
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        const err = new Error(data.message || "GitHub PUT error");
+        err.response = data;
+        err.status = res.status;
+        throw err;
+      }
+      return data;
+    }
+
+    function parseFrontMatter(text) {
+      const result = { meta: {}, body: text };
+      if (!text.startsWith("---")) return result;
+
+      const second = text.indexOf("\n---", 3);
+      if (second === -1) return result;
+
+      const metaText = text.slice(3, second).trim();
+      const body = text.slice(second + 4); // 跳过 \n---
+
+      const meta = {};
+      metaText.split("\n").forEach(line => {
+        const idx = line.indexOf(":");
+        if (idx === -1) return;
+        const key = line.slice(0, idx).trim();
+        let value = line.slice(idx + 1).trim();
+        if (
+          (value.startsWith('"') && value.endsWith('"')) ||
+          (value.startsWith("'") && value.endsWith("'"))
+        ) {
+          value = value.slice(1, -1);
+        }
+        meta[key] = value;
       });
 
-      const data = await res.json();
-
-      if (res.status === 201 || res.status === 200) {
-        statusSpan.style.color = "#16a34a";
-        statusSpan.textContent = "发布成功！GitHub Pages 正在重新构建。";
-        console.log("GitHub 返回：", data);
-      } else {
-        console.error("GitHub error:", data);
-        statusSpan.style.color = "#dc2626";
-        statusSpan.textContent = "提交失败，打开控制台查看错误信息。";
-        alert("提交失败：" + (data.message || res.status));
-      }
-    } catch (err) {
-      console.error(err);
-      statusSpan.style.color = "#dc2626";
-      statusSpan.textContent = "网络或其它错误。";
-      alert("网络或其它错误，请稍后再试。");
+      result.meta = meta;
+      result.body = body;
+      return result;
     }
-  });
+
+    function renderPostList(list) {
+      const listEl = document.getElementById("post-list");
+      listEl.innerHTML = "";
+      if (!list || list.length === 0) {
+        listEl.innerHTML = '<div class="admin-status-small">当前没有文章。</div>';
+        return;
+      }
+
+      list.forEach(item => {
+        const div = document.createElement("div");
+        div.className = "admin-post-item";
+
+        const nameNoExt = item.name.replace(/\.md$/, "");
+        const datePart = nameNoExt.slice(0, 10);
+        const slugPart = nameNoExt.length > 11 ? nameNoExt.slice(11) : nameNoExt;
+
+        div.innerHTML =
+          '<div class="admin-post-title">' + slugPart + '</div>' +
+          '<div class="admin-post-meta">' + datePart + '</div>';
+
+        div.addEventListener("click", function() {
+          openPost(item.path);
+        });
+
+        listEl.appendChild(div);
+      });
+    }
+
+    async function loadPostList() {
+      const statusEl = document.getElementById("post-list-status");
+      const listEl = document.getElementById("post-list");
+      statusEl.textContent = "正在加载文章列表…";
+      listEl.innerHTML = "";
+
+      try {
+        const data = await apiGet("_posts");
+        const files = (data || []).filter(function(item) {
+          return item.type === "file" && item.name.endsWith(".md");
+        });
+        // 按文件名从新到旧排序
+        files.sort(function(a, b) {
+          return a.name < b.name ? 1 : -1;
+        });
+        allPosts = files;
+        renderPostList(allPosts);
+        statusEl.textContent = "共 " + allPosts.length + " 篇文章。";
+      } catch (err) {
+        console.error("loadPostList error:", err);
+        statusEl.textContent = "加载失败，请检查 Token 权限或网络。";
+      }
+    }
+
+    async function openPost(path) {
+      const status = document.getElementById("post-status");
+      status.style.color = "#6b7280";
+      status.textContent = "正在读取文章…";
+
+      try {
+        const data = await apiGet(path);
+        const text = decodeBase64(data.content);
+        const parsed = parseFrontMatter(text);
+        const meta = parsed.meta || {};
+        const body = parsed.body || "";
+
+        const filename = path.split("/").pop();
+        const nameNoExt = filename.replace(/\.md$/, "");
+        const dateFromName = nameNoExt.slice(0, 10);
+        const slugFromName = nameNoExt.length > 11 ? nameNoExt.slice(11) : "";
+
+        document.getElementById("post-title").value = meta.title || "";
+        const metaDate = (meta.date || "").split(" ")[0];
+        document.getElementById("post-date").value = metaDate || dateFromName || todayStr();
+        document.getElementById("post-slug").value = slugFromName;
+        document.getElementById("post-body").value = body.trim();
+
+        let tagsStr = "";
+        if (meta.tags) {
+          tagsStr = meta.tags.replace(/[\[\]]/g, "");
+        }
+        document.getElementById("post-tags").value = tagsStr;
+
+        document.getElementById("editor-title").textContent = "编辑文章";
+        document.getElementById("current-file-info").textContent = "当前文件：" + path;
+
+        currentEditing = {
+          path: path,
+          sha: data.sha,
+          filename: filename
+        };
+
+        status.textContent = "已加载，可以修改后保存。";
+      } catch (err) {
+        console.error("openPost error:", err);
+        status.style.color = "#dc2626";
+        status.textContent = "读取失败，请检查网络或 Token 权限。";
+      }
+    }
+
+    function resetEditorToNew() {
+      currentEditing = null;
+      document.getElementById("editor-title").textContent = "新建文章";
+      document.getElementById("current-file-info").textContent = "";
+      document.getElementById("post-title").value = "";
+      document.getElementById("post-date").value = todayStr();
+      document.getElementById("post-slug").value = "";
+      document.getElementById("post-tags").value = "";
+      document.getElementById("post-body").value = "";
+      document.getElementById("post-status").textContent = "";
+    }
+
+    async function savePost(e) {
+      e.preventDefault();
+
+      const title = document.getElementById("post-title").value.trim();
+      const date = document.getElementById("post-date").value.trim() || todayStr();
+      let slug = document.getElementById("post-slug").value.trim();
+      const tagsStr = document.getElementById("post-tags").value.trim();
+      const body = document.getElementById("post-body").value || "";
+
+      const status = document.getElementById("post-status");
+      status.style.color = "#6b7280";
+
+      if (!title || !body) {
+        alert("标题和正文不能为空。");
+        return;
+      }
+
+      if (!slug) {
+        slug = "post-" + Date.now();
+      }
+
+      const now = new Date();
+      const hh = String(now.getHours()).padStart(2, "0");
+      const mm = String(now.getMinutes()).padStart(2, "0");
+      const ss = String(now.getSeconds()).padStart(2, "0");
+      const dateTime = date + " " + hh + ":" + mm + ":" + ss + " +0800";
+
+      // tags 行
+      let tagsLine = "";
+      if (tagsStr) {
+        const arr = tagsStr.split(",").map(function(s) { return s.trim(); }).filter(Boolean);
+        if (arr.length > 0) {
+          tagsLine = "tags: [" + arr.join(", ") + "]\n";
+        }
+      }
+
+      const frontMatter =
+        "---\n" +
+        "layout: post\n" +
+        "title: " + JSON.stringify(title).slice(1, -1) + "\n" +
+        "date: " + dateTime + "\n" +
+        tagsLine +
+        "---\n";
+
+      const fullContent = frontMatter + "\n" + body + "\n";
+      const b64 = encodeBase64(fullContent);
+
+      let path, msg;
+      if (currentEditing) {
+        path = currentEditing.path;
+        msg = "正在更新文章…";
+      } else {
+        const filename = date + "-" + slug + ".md";
+        path = "_posts/" + filename;
+        msg = "正在创建新文章…";
+      }
+
+      status.textContent = msg;
+
+      const bodyObj = {
+        message: currentEditing ? ("Update " + currentEditing.filename) : ("Add " + path),
+        content: b64,
+        branch: BRANCH
+      };
+
+      if (currentEditing && currentEditing.sha) {
+        bodyObj.sha = currentEditing.sha;
+      }
+
+      try {
+        const data = await apiPut(path, bodyObj);
+        const newSha = data && data.content && data.content.sha;
+        currentEditing = {
+          path: path,
+          sha: newSha,
+          filename: path.split("/").pop()
+        };
+        document.getElementById("current-file-info").textContent = "当前文件：" + path;
+        status.style.color = "#16a34a";
+        status.textContent = "保存成功！GitHub Pages 将自动重新构建。";
+        // 重新加载文章列表
+        loadPostList();
+      } catch (err) {
+        console.error("savePost error:", err);
+        status.style.color = "#dc2626";
+        status.textContent = "保存失败：" + (err.message || "未知错误");
+      }
+    }
+
+    async function loadWork() {
+      const status = document.getElementById("work-status");
+      const textarea = document.getElementById("work-body");
+      status.style.color = "#6b7280";
+      status.textContent = "正在读取 _includes/work.md…";
+
+      try {
+        const data = await apiGet("_includes/work.md");
+        workSha = data.sha;
+        textarea.value = decodeBase64(data.content);
+        status.textContent = "已加载，可以修改后保存。";
+      } catch (err) {
+        console.warn("loadWork error:", err);
+        workSha = null;
+        status.style.color = "#9ca3af";
+        status.textContent = "当前还没有 work.md，第一次保存时会自动创建。";
+        textarea.value = "";
+      }
+    }
+
+    async function saveWork() {
+      const status = document.getElementById("work-status");
+      const textarea = document.getElementById("work-body");
+      const text = textarea.value || "";
+
+      status.style.color = "#6b7280";
+      status.textContent = "正在保存工作内容…";
+
+      const b64 = encodeBase64(text);
+      const bodyObj = {
+        message: "Update work.md",
+        content: b64,
+        branch: BRANCH
+      };
+      if (workSha) {
+        bodyObj.sha = workSha;
+      }
+
+      try {
+        const data = await apiPut("_includes/work.md", bodyObj);
+        workSha = data && data.content && data.content.sha;
+        status.style.color = "#16a34a";
+        status.textContent = "保存成功！";
+      } catch (err) {
+        console.error("saveWork error:", err);
+        status.style.color = "#dc2626";
+        status.textContent = "保存失败：" + (err.message || "未知错误");
+      }
+    }
+
+    function initAfterToken() {
+      if (!getToken()) {
+        document.getElementById("post-list-status").textContent = "尚未保存 Token，请先在上方粘贴。";
+        return;
+      }
+      loadPostList();
+      loadWork();
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+      // 默认日期
+      document.getElementById("post-date").value = todayStr();
+
+      // Token 状态
+      const tokenStatus = document.getElementById("token-status");
+      if (getToken()) {
+        tokenStatus.textContent = "已在本机保存 Token。";
+        tokenStatus.style.color = "#16a34a";
+        initAfterToken();
+      } else {
+        tokenStatus.textContent = "尚未保存 Token。";
+      }
+
+      // 保存 Token
+      document.getElementById("save-token").addEventListener("click", function() {
+        const v = document.getElementById("token-input").value.trim();
+        if (!v) {
+          alert("请先粘贴你的 GitHub Token。");
+          return;
+        }
+        setToken(v);
+        document.getElementById("token-input").value = "";
+        tokenStatus.textContent = "Token 已保存（仅本机浏览器）。";
+        tokenStatus.style.color = "#16a34a";
+        initAfterToken();
+      });
+
+      // 刷新文章列表
+      document.getElementById("post-refresh").addEventListener("click", function() {
+        initAfterToken();
+      });
+
+      // 搜索过滤
+      document.getElementById("post-search").addEventListener("input", function() {
+        const q = this.value.trim().toLowerCase();
+        if (!q) {
+          renderPostList(allPosts);
+          return;
+        }
+        const filtered = allPosts.filter(function(item) {
+          return item.name.toLowerCase().indexOf(q) !== -1;
+        });
+        renderPostList(filtered);
+      });
+
+      // 新建文章
+      document.getElementById("post-new").addEventListener("click", function() {
+        resetEditorToNew();
+      });
+
+      // 保存文章
+      document.getElementById("post-form").addEventListener("submit", savePost);
+
+      // 保存工作内容
+      document.getElementById("work-save").addEventListener("click", function() {
+        saveWork();
+      });
+    });
+  })();
 </script>
