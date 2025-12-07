@@ -1,0 +1,369 @@
+---
+---
+
+/* 先加载 minima 默认样式 */
+@import "minima";
+
+/* ====== 全局基础样式 ====== */
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+               "PingFang SC", "Hiragino Sans GB",
+               "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  background-color: #f3f4f6;
+  color: #111827;
+  line-height: 1.7;
+}
+
+a {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #1d4ed8;
+  text-decoration: underline;
+}
+
+/* ====== 顶部导航条 ====== */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: #ffffffcc;
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid #e5e7eb;
+  box-shadow: 0 4px 18px rgba(15, 23, 42, 0.06);
+}
+
+/* 兼容 minima 的 wrapper */
+.site-header .wrapper {
+  max-width: 1120px;
+}
+
+/* 标题 */
+.site-title {
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: 0.5px;
+}
+
+/* 右上角导航 */
+.top-nav a {
+  margin-left: 14px;
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: 999px;
+}
+
+.top-nav a:hover {
+  background: #e5edff;
+  text-decoration: none;
+}
+
+/* ====== 主体布局：左侧栏 + 正文 + 右侧栏 ====== */
+
+.site-shell {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto 40px;
+  padding: 28px 18px 40px 18px;
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr) 260px; /* 左栏 + 正文 + 右栏 */
+  gap: 32px;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+/* 大屏时稍微左移一点，让左栏更靠边 */
+@media (min-width: 1280px) {
+  .site-shell {
+    margin-left: 40px;
+    margin-right: auto;
+  }
+}
+
+/* minima 默认 wrapper 收窄一点 */
+.page-content .wrapper {
+  max-width: 1200px;
+}
+
+/* 中间正文列 */
+.site-main {
+  display: flex;
+  justify-content: center;
+}
+
+.site-main .content-wrapper {
+  max-width: 780px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* ====== 左侧栏样式 ====== */
+
+.site-sidebar {
+  position: sticky;
+  top: 76px;
+  height: fit-content;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  background: linear-gradient(145deg, #f9fafb, #f3f4f6);
+  padding: 16px 14px 10px 14px;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.06);
+}
+
+.sidebar-title {
+  font-size: 11px;
+  color: #6b7280;
+  margin: 6px 0 4px 2px;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+
+.sidebar-section {
+  margin-bottom: 14px;
+}
+
+.sidebar-link {
+  display: block;
+  padding: 8px 10px;
+  margin: 2px 0;
+  border-radius: 9px;
+  font-weight: 600;
+  font-size: 14px;
+  color: #111827;
+  transition: background 0.12s ease, transform 0.08s ease;
+}
+
+.sidebar-link:hover {
+  background: #ffffff;
+  text-decoration: none;
+  transform: translateY(-1px);
+}
+
+.sidebar-link.active {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+/* ====== 右侧栏：标签 + 工作 ====== */
+
+.site-rightbar {
+  position: sticky;
+  top: 76px;
+  height: fit-content;
+}
+
+.right-card {
+  border-radius: 14px;
+  background: #ffffff;
+  padding: 14px 14px 10px 14px;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.06);
+  border: 1px solid #e5e7eb;
+}
+
+.right-section + .right-section {
+  border-top: 1px solid #f3f4f6;
+  margin-top: 10px;
+  padding-top: 8px;
+}
+
+.right-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #4b5563;
+  margin-bottom: 6px;
+}
+
+/* 标签 chips */
+.right-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tag-chip {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  border: 1px solid #d1d5db;
+  background: #f9fafb;
+  color: #374151;
+  white-space: nowrap;
+}
+
+.tag-chip:hover {
+  background: #2563eb;
+  color: #ffffff;
+  border-color: #2563eb;
+}
+
+/* 工作文本 */
+.right-work {
+  font-size: 13px;
+  color: #4b5563;
+  line-height: 1.6;
+}
+
+.right-work p {
+  margin: 4px 0;
+}
+
+.right-empty {
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+/* ====== 文章列表卡片 ====== */
+
+ul.post-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+ul.post-list > li {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 1.2rem 1.5rem 1.1rem;
+  margin-bottom: 1.3rem;
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.06);
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+ul.post-list > li:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+}
+
+ul.post-list > li .post-meta {
+  font-size: 0.82rem;
+  color: #6b7280;
+  margin-bottom: 0.35rem;
+}
+
+ul.post-list > li .post-link {
+  font-size: 1.05rem;
+}
+
+/* 单篇文章 / page 卡片 */
+.post,
+.page {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 1.6rem 1.8rem 2rem;
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.06);
+}
+
+.post-title,
+.page-title {
+  margin-top: 0.2rem;
+  margin-bottom: 0.8rem;
+}
+
+/* ====== 页脚 ====== */
+
+.site-footer {
+  margin-top: 24px;
+  border-top: 1px solid #e5e7eb;
+  color: #6b7280;
+  font-size: 12px;
+  padding: 16px 0 30px 0;
+}
+
+.site-footer .wrapper {
+  max-width: 1200px;
+}
+
+/* ====== links 页面：按钮风格链接 ====== */
+
+.link-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 8px 0 20px 0;
+}
+
+.link-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  font-size: 14px;
+  font-weight: 500;
+  color: #111827;
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.06);
+  cursor: pointer;
+  white-space: nowrap;
+  min-width: 140px;
+  transition:
+    background 0.1s ease,
+    color 0.1s ease,
+    border-color 0.1s ease,
+    box-shadow 0.1s ease,
+    transform 0.08s ease;
+}
+
+.link-button:hover {
+  background: #2563eb;
+  color: #ffffff;
+  border-color: #2563eb;
+  text-decoration: none;
+  transform: translateY(-1px);
+  box-shadow: 0 12px 30px rgba(37, 99, 235, 0.45);
+}
+
+/* ====== 响应式：小屏改为单列，隐藏右侧栏 ====== */
+
+@media (max-width: 1100px) {
+  .site-shell {
+    grid-template-columns: 260px minmax(0, 1fr);
+  }
+
+  .site-rightbar {
+    display: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .site-shell {
+    grid-template-columns: 1fr;
+    padding-top: 18px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .site-sidebar {
+    position: static;
+    order: -1;
+    margin-bottom: 4px;
+  }
+
+  .top-nav {
+    display: none;
+  }
+
+  .post,
+  .page {
+    border-radius: 10px;
+    padding: 1.2rem 1.2rem 1.5rem;
+  }
+
+  ul.post-list > li {
+    border-radius: 10px;
+  }
+
+  .link-button {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .link-grid {
+    flex-direction: column;
+  }
+}
