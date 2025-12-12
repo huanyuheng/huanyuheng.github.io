@@ -145,8 +145,9 @@ permalink: /admin/
 <!-- ====== 后台专用样式（复用博客卡片风格） ====== -->
 <style>
   .admin-page {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto 40px;
+    padding: 0 24px;
   }
 
   .admin-title {
@@ -173,8 +174,8 @@ permalink: /admin/
 
   .admin-shell {
     display: grid;
-    grid-template-columns: 320px minmax(0, 1fr);
-    gap: 22px;
+    grid-template-columns: 360px minmax(0, 1fr);
+    gap: 26px;
     margin-bottom: 18px;
   }
 
@@ -761,20 +762,22 @@ permalink: /admin/
         return;
       }
 
-      list.forEach(function(item, idx) {
-        const wrap = document.createElement("div");
-        wrap.className = "admin-gallery-item";
-        const source = item.source ? `<a href="${item.source}" target="_blank">来源</a>` : "<span class=\"admin-status-small\">无来源</span>";
-        wrap.innerHTML = `
-          <div class="admin-gallery-title">${item.title || "未命名"}</div>
-          <p class="admin-gallery-url">${item.url || ""}</p>
-          <div class="admin-gallery-meta">
-            ${source}
-            <button class="admin-btn-danger" data-index="${idx}">删除</button>
-          </div>
-        `;
-        container.appendChild(wrap);
-      });
+        list.forEach(function(item, idx) {
+          const wrap = document.createElement("div");
+          wrap.className = "admin-gallery-item";
+          const source = item.source
+            ? `<a href="${item.source}" target="_blank">来源</a>`
+            : "<span class=\"admin-status-small\">无来源</span>";
+          wrap.innerHTML = `
+            <div class="admin-gallery-title">${item.title || "未命名"}</div>
+            <p class="admin-gallery-url">${item.url || ""}</p>
+            <div class="admin-gallery-meta">
+              ${source}
+              <button class="admin-btn-danger" data-index="${idx}">删除</button>
+            </div>
+          `;
+          container.appendChild(wrap);
+        });
     }
 
     async function loadGallery() {
