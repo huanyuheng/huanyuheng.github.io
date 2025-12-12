@@ -1,0 +1,33 @@
+- title: 学习
+  desc: 文献、资料查找
+  links:
+    - name: Google Scholar
+      url: https://scholar.google.com
+      image: https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=600&q=80
+    - name: Zotero
+      url: https://www.zotero.org
+      image: https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80
+- title: 科研 / 工具
+  desc: 协作、排版与托管
+  links:
+    - name: GitHub
+      url: https://github.com
+      image: https://images.unsplash.com/photo-1523475472560-d2df97ec485c?auto=format&fit=crop&w=600&q=80
+    - name: Overleaf
+      url: https://www.overleaf.com
+      image: https://images.unsplash.com/photo-1484417894907-623942c8ee29?auto=format&fit=crop&w=600&q=80
+- title: AI / 办公
+  desc: 提升效率的小工具
+  links:
+    - name: ChatGPT
+      url: https://chatgpt.com
+      image: https://images.unsplash.com/photo-1526498460520-4c246339dccb?auto=format&fit=crop&w=600&q=80
+    - name: Claude
+      url: https://claude.ai
+      image: https://images.unsplash.com/photo-1472220625704-91e1462799b2?auto=format&fit=crop&w=600&q=80
+- title: 娱乐
+  desc: 放松休闲
+  links:
+    - name: 哔哩哔哩
+      url: https://www.bilibili.com
+      image: https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=600&q=80
