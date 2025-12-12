@@ -21,4 +21,20 @@
       {{ work_md | markdownify }}
     </div>
   </div>
+
+  <div class="right-section">
+    <div class="right-title">收藏图片</div>
+    {% assign gallery_list = site.data.gallery | default: [] %}
+    {% if gallery_list.size > 0 %}
+      <div class="right-gallery-grid">
+        {% for item in gallery_list limit: 6 %}
+          <a class="right-gallery-item" href="{{ item.source | default: item.url }}" target="_blank" rel="noopener">
+            <div class="right-gallery-thumb" style="background-image: url('{{ item.url }}');" aria-label="{{ item.title | default: '收藏图片' }}"></div>
+          </a>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="right-empty">还没有收藏图片，去后台添加一张吧。</p>
+    {% endif %}
+  </div>
 </div>

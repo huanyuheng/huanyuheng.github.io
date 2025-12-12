@@ -214,6 +214,33 @@ a:hover {
   color: #9ca3af;
 }
 
+/* 右侧收藏图片 */
+.right-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.right-gallery-item {
+  display: block;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #f3f4f6;
+  box-shadow: inset 0 0 0 1px rgba(229, 231, 235, 0.7);
+}
+
+.right-gallery-thumb {
+  width: 100%;
+  padding-top: 75%;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.12s ease;
+}
+
+.right-gallery-item:hover .right-gallery-thumb {
+  transform: scale(1.04);
+}
+
 /* ====== 文章列表卡片 ====== */
 
 ul.post-list {
