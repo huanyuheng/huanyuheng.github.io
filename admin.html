@@ -106,6 +106,40 @@ permalink: /admin/
     <textarea id="work-body" rows="6" class="admin-textarea"></textarea>
     <span id="work-status" class="admin-status"></span>
   </div>
+
+  <!-- 二次元图片收藏管理 -->
+  <div class="admin-card admin-gallery">
+    <div class="admin-gallery-header">
+      <div>
+        <h2 class="admin-section-title">二次元图片收藏区</h2>
+        <div class="admin-token-sub">管理 <code>_data/gallery.json</code>，在首页「网站库」页面展示。</div>
+      </div>
+      <button id="gallery-refresh" class="admin-btn-outline-small">刷新列表</button>
+    </div>
+
+    <form id="gallery-form" class="admin-gallery-form">
+      <div class="admin-form-row">
+        <label>标题</label>
+        <input id="gallery-title" type="text" class="admin-input" placeholder="例如：樱花与和风" required>
+      </div>
+      <div class="admin-form-row">
+        <label>图片链接（建议 https:// 开头的可公开访问地址）</label>
+        <input id="gallery-url" type="url" class="admin-input" placeholder="https://..." required>
+      </div>
+      <div class="admin-form-row">
+        <label>来源（可选）</label>
+        <input id="gallery-source" type="url" class="admin-input" placeholder="原图来源链接">
+      </div>
+      <div class="admin-gallery-actions">
+        <button type="submit" class="admin-btn-save">添加并保存</button>
+        <span id="gallery-status" class="admin-status"></span>
+      </div>
+    </form>
+
+    <div id="gallery-list" class="admin-gallery-list">
+      <!-- 动态填充 -->
+    </div>
+  </div>
 </div>
 
 <!-- ====== 后台专用样式（复用博客卡片风格） ====== -->
@@ -146,6 +180,10 @@ permalink: /admin/
 
   .admin-left, .admin-right, .admin-work {
     align-self: flex-start;
+  }
+
+  .admin-gallery {
+    margin-top: 18px;
   }
 
   .admin-section-title {
@@ -328,6 +366,70 @@ permalink: /admin/
     margin-top: 4px;
   }
 
+  .admin-gallery-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .admin-gallery-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 12px;
+    align-items: end;
+    margin-bottom: 10px;
+  }
+
+  .admin-gallery-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .admin-gallery-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 10px;
+  }
+
+  .admin-gallery-item {
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 10px 12px;
+    background: #f9fafb;
+    box-shadow: 0 10px 26px rgba(15, 23, 42, 0.06);
+  }
+
+  .admin-gallery-title {
+    font-weight: 600;
+    margin: 0 0 4px 0;
+  }
+
+  .admin-gallery-url {
+    word-break: break-all;
+    font-size: 12px;
+    color: #4b5563;
+    margin: 0 0 6px 0;
+  }
+
+  .admin-gallery-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .admin-btn-danger {
+    padding: 6px 10px;
+    border-radius: 10px;
+    border: 1px solid #fecdd3;
+    background: #fff1f2;
+    color: #dc2626;
+    cursor: pointer;
+  }
+
   @media (max-width: 900px) {
     .admin-shell {
       grid-template-columns: 1fr;
@@ -347,6 +449,8 @@ permalink: /admin/
     let allPosts = [];
     let currentEditing = null;   // { path, sha, filename }
     let workSha = null;
+    let galleryItems = [];
+    let gallerySha = null;
 
     function getToken() {
       return localStorage.getItem(TOKEN_KEY) || "";
@@ -646,6 +750,103 @@ permalink: /admin/
       }
     }
 
+    function renderGalleryList(list) {
+      const container = document.getElementById("gallery-list");
+      container.innerHTML = "";
+      if (!list || list.length === 0) {
+        const p = document.createElement("div");
+        p.className = "admin-status-small";
+        p.textContent = "还没有图片，先添加一张吧。";
+        container.appendChild(p);
+        return;
+      }
+
+      list.forEach(function(item, idx) {
+        const wrap = document.createElement("div");
+        wrap.className = "admin-gallery-item";
+        const source = item.source ? `<a href="${item.source}" target="_blank">来源</a>` : "<span class=\"admin-status-small\">无来源</span>";
+        wrap.innerHTML = `
+          <div class="admin-gallery-title">${item.title || "未命名"}</div>
+          <p class="admin-gallery-url">${item.url || ""}</p>
+          <div class="admin-gallery-meta">
+            ${source}
+            <button class="admin-btn-danger" data-index="${idx}">删除</button>
+          </div>
+        `;
+        container.appendChild(wrap);
+      });
+    }
+
+    async function loadGallery() {
+      const status = document.getElementById("gallery-status");
+      status.style.color = "#6b7280";
+      status.textContent = "正在读取 _data/gallery.json…";
+      try {
+        const data = await apiGet("_data/gallery.json");
+        gallerySha = data.sha;
+        const parsed = JSON.parse(decodeBase64(data.content) || "[]");
+        galleryItems = Array.isArray(parsed) ? parsed : [];
+        renderGalleryList(galleryItems);
+        status.style.color = "#16a34a";
+        status.textContent = "已加载图库，可继续添加或删除。";
+      } catch (err) {
+        console.warn("loadGallery error:", err);
+        gallerySha = null;
+        galleryItems = [];
+        renderGalleryList(galleryItems);
+        status.style.color = "#9ca3af";
+        status.textContent = "当前还没有 gallery.json，第一次保存时会自动创建。";
+      }
+    }
+
+    async function saveGallery() {
+      const status = document.getElementById("gallery-status");
+      status.style.color = "#6b7280";
+      status.textContent = "正在保存图库…";
+      const jsonStr = JSON.stringify(galleryItems, null, 2) + "\n";
+      const b64 = encodeBase64(jsonStr);
+      const bodyObj = {
+        message: "Update gallery.json",
+        content: b64,
+        branch: BRANCH
+      };
+      if (gallerySha) {
+        bodyObj.sha = gallerySha;
+      }
+      try {
+        const data = await apiPut("_data/gallery.json", bodyObj);
+        gallerySha = data && data.content && data.content.sha;
+        status.style.color = "#16a34a";
+        status.textContent = "保存成功！";
+        renderGalleryList(galleryItems);
+      } catch (err) {
+        console.error("saveGallery error:", err);
+        status.style.color = "#dc2626";
+        status.textContent = "保存失败：" + (err.message || "未知错误");
+      }
+    }
+
+    function handleGallerySubmit(e) {
+      e.preventDefault();
+      const title = document.getElementById("gallery-title").value.trim();
+      const url = document.getElementById("gallery-url").value.trim();
+      const source = document.getElementById("gallery-source").value.trim();
+      if (!title || !url) {
+        alert("标题和图片链接不能为空。");
+        return;
+      }
+      const item = { title: title, url: url };
+      if (source) {
+        item.source = source;
+      }
+      galleryItems.unshift(item);
+      document.getElementById("gallery-title").value = "";
+      document.getElementById("gallery-url").value = "";
+      document.getElementById("gallery-source").value = "";
+      renderGalleryList(galleryItems);
+      saveGallery();
+    }
+
     async function loadWork() {
       const status = document.getElementById("work-status");
       const textarea = document.getElementById("work-body");
@@ -703,6 +904,7 @@ permalink: /admin/
       }
       loadPostList();
       loadWork();
+      loadGallery();
     }
 
     document.addEventListener("DOMContentLoaded", function() {
@@ -762,6 +964,22 @@ permalink: /admin/
       // 保存工作内容
       document.getElementById("work-save").addEventListener("click", function() {
         saveWork();
+      });
+
+      // 保存图库
+      document.getElementById("gallery-form").addEventListener("submit", handleGallerySubmit);
+      document.getElementById("gallery-refresh").addEventListener("click", function() {
+        loadGallery();
+      });
+      document.getElementById("gallery-list").addEventListener("click", function(e) {
+        if (e.target && e.target.matches(".admin-btn-danger")) {
+          const idx = parseInt(e.target.getAttribute("data-index"), 10);
+          if (!isNaN(idx)) {
+            galleryItems.splice(idx, 1);
+            renderGalleryList(galleryItems);
+            saveGallery();
+          }
+        }
       });
     });
   })();
