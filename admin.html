@@ -5,10 +5,20 @@ permalink: /admin/
 ---
 
 <div class="admin-page">
-  <h1 class="admin-title">博客后台</h1>
-  <p class="admin-desc">
-    在这里可以：① 新建文章；② 从左侧列表选择文章并编辑；③ 修改右侧栏「工作」内容。
-  </p>
+  <div class="admin-hero">
+    <div>
+      <div class="admin-kicker">Writing Dashboard</div>
+      <h1 class="admin-title">博客后台</h1>
+      <p class="admin-desc">
+        在这里可以：① 新建文章；② 从左侧列表选择文章并编辑；③ 修改右侧栏「工作」内容。
+        全部卡片、配色与前台保持一致，让后台阅读和编辑更舒服。
+      </p>
+    </div>
+    <div class="admin-hero-actions">
+      <span class="admin-hero-tip">管理文章、右侧栏与图库内容</span>
+      <button id="post-refresh" class="admin-btn-outline">刷新文章列表</button>
+    </div>
+  </div>
 
   <!-- Token 设置卡片 -->
   <div class="admin-card admin-token-card">
@@ -17,7 +27,6 @@ permalink: /admin/
         <div class="admin-token-title">GitHub Token</div>
         <div class="admin-token-sub">只保存在本机浏览器，用来调用 GitHub API。</div>
       </div>
-      <button id="post-refresh" class="admin-btn-outline">刷新文章列表</button>
     </div>
     <div class="admin-token-body">
       <input id="token-input" type="password"
@@ -46,49 +55,63 @@ permalink: /admin/
       </div>
     </div>
 
-    <!-- 右侧：文章编辑器 -->
-    <div class="admin-card admin-right">
-      <div class="admin-right-header">
-        <h2 id="editor-title" class="admin-section-title">新建文章</h2>
-        <button id="post-new" class="admin-btn-outline-small">新建空白</button>
-      </div>
-      <div id="current-file-info" class="admin-current-file"></div>
-
-      <form id="post-form" class="admin-form">
-        <div class="admin-form-row">
-          <label>标题（title）</label>
-          <input id="post-title" type="text" required class="admin-input">
+    <!-- 右侧：文章编辑器 + 预览 -->
+    <div class="admin-right-column">
+      <div class="admin-card admin-right admin-editor-card">
+        <div class="admin-right-header">
+          <h2 id="editor-title" class="admin-section-title">新建文章</h2>
+          <button id="post-new" class="admin-btn-outline-small">新建空白</button>
         </div>
+        <div id="current-file-info" class="admin-current-file"></div>
 
-        <div class="admin-form-row">
-          <label>日期（YYYY-MM-DD）</label>
-          <input id="post-date" type="text" class="admin-input admin-input-short">
-        </div>
-
-        <div class="admin-form-row">
-          <label>文件名 slug（可选，例如 <code>my-first-post</code>）</label>
-          <input id="post-slug" type="text" class="admin-input">
-          <div class="admin-help">
-            最终文件名：<code>YYYY-MM-DD-slug.md</code>。不写 slug 则自动使用时间戳。
+        <form id="post-form" class="admin-form">
+          <div class="admin-form-row">
+            <label>标题（title）</label>
+            <input id="post-title" type="text" required class="admin-input">
           </div>
-        </div>
 
-        <div class="admin-form-row">
-          <label>标签（tags，用英文逗号分隔，可选）</label>
-          <input id="post-tags" type="text" placeholder="gamma-ray, metasurface"
-                 class="admin-input">
-        </div>
+          <div class="admin-form-row">
+            <label>日期（YYYY-MM-DD）</label>
+            <input id="post-date" type="text" class="admin-input admin-input-short">
+          </div>
 
-        <div class="admin-form-row">
-          <label>正文内容（支持 Markdown）</label>
-          <textarea id="post-body" rows="18" class="admin-textarea"></textarea>
-        </div>
+          <div class="admin-form-row">
+            <label>文件名 slug（可选，例如 <code>my-first-post</code>）</label>
+            <input id="post-slug" type="text" class="admin-input">
+            <div class="admin-help">
+              最终文件名：<code>YYYY-MM-DD-slug.md</code>。不写 slug 则自动使用时间戳。
+            </div>
+          </div>
 
-        <button type="submit" class="admin-btn-save">
-          🚀 保存到 GitHub
-        </button>
-        <span id="post-status" class="admin-status"></span>
-      </form>
+          <div class="admin-form-row">
+            <label>标签（tags，用英文逗号分隔，可选）</label>
+            <input id="post-tags" type="text" placeholder="gamma-ray, metasurface"
+                   class="admin-input">
+          </div>
+
+          <div class="admin-form-row">
+            <label>正文内容（支持 Markdown）</label>
+            <textarea id="post-body" rows="18" class="admin-textarea"></textarea>
+          </div>
+
+          <button type="submit" class="admin-btn-save">
+            🚀 保存到 GitHub
+          </button>
+          <span id="post-status" class="admin-status"></span>
+        </form>
+      </div>
+
+      <div class="admin-card admin-preview-card">
+        <div class="admin-preview-head">
+          <div>
+            <div class="admin-preview-label">文章预览</div>
+            <div id="preview-title" class="admin-preview-title">新建文章</div>
+            <div id="preview-meta" class="admin-preview-meta">尚未填写元信息</div>
+          </div>
+          <span class="admin-preview-tip">内容与前台排版更接近，便于校对。</span>
+        </div>
+        <div id="post-preview" class="admin-preview-body">请在上方输入正文内容，实时预览会呈现 Markdown 效果。</div>
+      </div>
     </div>
   </div>
 
@@ -145,26 +168,67 @@ permalink: /admin/
 <!-- ====== 后台专用样式（复用博客卡片风格） ====== -->
 <style>
   .admin-page {
-    max-width: 1400px;
+    max-width: 1180px;
     margin: 0 auto 40px;
-    padding: 0 24px;
+    padding: 4px 20px;
+  }
+
+  .admin-hero {
+    background: linear-gradient(120deg, #eef2ff, #e0f2fe);
+    border: 1px solid #dbeafe;
+    border-radius: 16px;
+    padding: 18px 20px;
+    box-shadow: 0 14px 36px rgba(59, 130, 246, 0.15);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .admin-kicker {
+    margin: 0 0 2px 0;
+    font-size: 12px;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: #2563eb;
+    font-weight: 700;
   }
 
   .admin-title {
-    margin-bottom: 4px;
+    margin: 0 0 6px 0;
   }
 
   .admin-desc {
     font-size: 14px;
-    color: #6b7280;
-    margin-bottom: 14px;
+    color: #4b5563;
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  .admin-hero-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-end;
+  }
+
+  .admin-hero-tip {
+    font-size: 13px;
+    color: #1d4ed8;
+    background: #eef2ff;
+    border: 1px solid #dbeafe;
+    padding: 6px 10px;
+    border-radius: 12px;
+    font-weight: 600;
+    white-space: normal;
   }
 
   .admin-card {
     background: #ffffff;
-    border-radius: 14px;
+    border-radius: 16px;
     padding: 16px 18px 18px;
-    box-shadow: 0 16px 40px rgba(15, 23, 42, 0.06);
+    box-shadow: 0 18px 42px rgba(15, 23, 42, 0.08);
     border: 1px solid #e5e7eb;
   }
 
@@ -174,13 +238,23 @@ permalink: /admin/
 
   .admin-shell {
     display: grid;
-    grid-template-columns: 360px minmax(0, 1fr);
-    gap: 26px;
+    grid-template-columns: 320px minmax(0, 1fr);
+    gap: 22px;
     margin-bottom: 18px;
   }
 
   .admin-left, .admin-right, .admin-work {
     align-self: flex-start;
+  }
+
+  .admin-right-column {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .admin-editor-card {
+    padding-bottom: 16px;
   }
 
   .admin-gallery {
@@ -227,6 +301,8 @@ permalink: /admin/
     font-size: 14px;
     width: 100%;
     box-sizing: border-box;
+    background: #f9fafb;
+    transition: border-color 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
   }
 
   .admin-input-short {
@@ -244,8 +320,19 @@ permalink: /admin/
     padding: 10px 12px;
     border-radius: 10px;
     border: 1px solid #d1d5db;
-    font-family: monospace, Consolas, Menlo, "SF Mono", "Fira Code";
-    font-size: 13px;
+    font-family: "SFMono-Regular", "JetBrains Mono", Menlo, Consolas, monospace;
+    font-size: 14px;
+    line-height: 1.7;
+    background: #f9fafb;
+    transition: border-color 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+  }
+
+  .admin-input:focus,
+  .admin-textarea:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+    background: #ffffff;
   }
 
   .admin-btn-primary,
@@ -316,29 +403,61 @@ permalink: /admin/
   }
 
   .admin-post-item {
-    padding: 8px 10px;
-    border-radius: 10px;
+    padding: 10px 12px;
+    border-radius: 12px;
     border: 1px solid #e5e7eb;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
     cursor: pointer;
-    background: #f9fafb;
+    background: linear-gradient(180deg, #f9fafb, #ffffff);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    transition: transform 0.08s ease, box-shadow 0.12s ease, border-color 0.12s ease, background 0.12s ease;
   }
 
   .admin-post-item:hover {
     background: #2563eb;
     color: #ffffff;
     border-color: #2563eb;
+    box-shadow: 0 10px 26px rgba(37, 99, 235, 0.3);
+    transform: translateY(-1px);
   }
 
   .admin-post-title {
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 700;
+    color: #111827;
   }
 
   .admin-post-meta {
     font-size: 12px;
-    margin-top: 2px;
-    opacity: 0.8;
+    color: #6b7280;
+    word-break: break-all;
+  }
+
+  .admin-post-item:hover .admin-post-title,
+  .admin-post-item:hover .admin-post-meta {
+    color: #ffffff;
+  }
+
+  .admin-post-date {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: #eef2ff;
+    border: 1px solid #c7d2fe;
+    color: #4338ca;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .admin-post-item:hover .admin-post-date {
+    background: #1e3a8a;
+    border-color: #1d4ed8;
+    color: #e0e7ff;
   }
 
   .admin-current-file {
@@ -361,6 +480,114 @@ permalink: /admin/
     font-size: 12px;
     color: #9ca3af;
     margin-top: 2px;
+  }
+
+  .admin-preview-card {
+    padding: 14px 16px 16px;
+  }
+
+  .admin-preview-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+
+  .admin-preview-label {
+    font-size: 12px;
+    color: #2563eb;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    margin-bottom: 4px;
+  }
+
+  .admin-preview-title {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 800;
+    color: #0f172a;
+  }
+
+  .admin-preview-meta {
+    font-size: 13px;
+    color: #6b7280;
+    margin-top: 2px;
+  }
+
+  .admin-preview-tip {
+    background: #f1f5f9;
+    color: #475569;
+    border: 1px solid #e2e8f0;
+    padding: 6px 10px;
+    border-radius: 10px;
+    font-size: 12px;
+    max-width: 220px;
+    line-height: 1.4;
+    text-align: right;
+  }
+
+  .admin-preview-body {
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 14px 16px 16px;
+    background: linear-gradient(180deg, #f9fafb, #ffffff);
+    max-height: 540px;
+    overflow: auto;
+    color: #111827;
+    line-height: 1.7;
+    font-size: 15px;
+  }
+
+  .admin-preview-body h1,
+  .admin-preview-body h2,
+  .admin-preview-body h3,
+  .admin-preview-body h4,
+  .admin-preview-body h5,
+  .admin-preview-body h6 {
+    margin: 12px 0 8px;
+  }
+
+  .admin-preview-body p {
+    margin: 8px 0;
+  }
+
+  .admin-preview-body code {
+    background: #f1f5f9;
+    padding: 2px 6px;
+    border-radius: 6px;
+    font-size: 13px;
+    border: 1px solid #e2e8f0;
+  }
+
+  .admin-preview-body pre {
+    background: #0f172a;
+    color: #e2e8f0;
+    padding: 10px 12px;
+    border-radius: 10px;
+    overflow: auto;
+  }
+
+  .admin-preview-body ul,
+  .admin-preview-body ol {
+    padding-left: 20px;
+    margin: 8px 0;
+  }
+
+  .admin-preview-body blockquote {
+    border-left: 3px solid #2563eb;
+    padding-left: 10px;
+    color: #475569;
+    margin: 10px 0;
+  }
+
+  .admin-preview-body a {
+    color: #2563eb;
+    text-decoration: underline;
+  }
+
+  .admin-preview-empty {
+    color: #9ca3af;
   }
 
   .admin-work {
@@ -435,8 +662,25 @@ permalink: /admin/
     .admin-shell {
       grid-template-columns: 1fr;
     }
+
+    .admin-hero {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .admin-hero-actions {
+      width: 100%;
+      align-items: flex-start;
+    }
+
+    .admin-preview-body {
+      max-height: none;
+    }
   }
 </style>
+
+<!-- Markdown 渲染库，用于后台预览 -->
+<script src="https://cdn.jsdelivr.net/npm/marked@4.3.0/marked.min.js"></script>
 
 <!-- ====== 后台逻辑脚本：文章列表 + 编辑 + 工作区编辑 ====== -->
 <script>
@@ -565,12 +809,15 @@ permalink: /admin/
         div.className = "admin-post-item";
 
         const nameNoExt = item.name.replace(/\.md$/, "");
-        const datePart = nameNoExt.slice(0, 10);
+        const datePart = nameNoExt.length >= 10 ? nameNoExt.slice(0, 10) : "日期未知";
         const slugPart = nameNoExt.length > 11 ? nameNoExt.slice(11) : nameNoExt;
 
         div.innerHTML =
-          '<div class="admin-post-title">' + slugPart + '</div>' +
-          '<div class="admin-post-meta">' + datePart + '</div>';
+          '<div>' +
+            '<div class="admin-post-title">' + (slugPart || "未命名") + '</div>' +
+            '<div class="admin-post-meta">_posts/' + item.name + '</div>' +
+          '</div>' +
+          '<span class="admin-post-date">' + datePart + '</span>';
 
         div.addEventListener("click", function() {
           openPost(item.path);
@@ -578,6 +825,31 @@ permalink: /admin/
 
         listEl.appendChild(div);
       });
+    }
+
+    function updatePreview() {
+      const previewTitle = document.getElementById("preview-title");
+      const previewMeta = document.getElementById("preview-meta");
+      const previewBody = document.getElementById("post-preview");
+      if (!previewBody || !previewTitle || !previewMeta) return;
+
+      const title = (document.getElementById("post-title").value || "").trim() || "未填写标题";
+      const date = (document.getElementById("post-date").value || todayStr()).trim();
+      const tagsStr = (document.getElementById("post-tags").value || "").trim();
+      const metaText = tagsStr ? (date + " · " + tagsStr) : date;
+      const body = document.getElementById("post-body").value || "";
+
+      previewTitle.textContent = title;
+      previewMeta.textContent = metaText;
+
+      if (window.marked) {
+        marked.setOptions({ breaks: true, mangle: false, headerIds: false });
+        previewBody.innerHTML = body
+          ? marked.parse(body)
+          : '<p class="admin-preview-empty">请在左侧输入正文内容，实时预览会呈现 Markdown 效果。</p>';
+      } else {
+        previewBody.textContent = body || "请在左侧输入正文内容，实时预览会呈现 Markdown 效果。";
+      }
     }
 
     async function loadPostList() {
@@ -636,6 +908,8 @@ permalink: /admin/
         document.getElementById("editor-title").textContent = "编辑文章";
         document.getElementById("current-file-info").textContent = "当前文件：" + path;
 
+        updatePreview();
+
         currentEditing = {
           path: path,
           sha: data.sha,
@@ -660,6 +934,7 @@ permalink: /admin/
       document.getElementById("post-tags").value = "";
       document.getElementById("post-body").value = "";
       document.getElementById("post-status").textContent = "";
+      updatePreview();
     }
 
     async function savePost(e) {
@@ -913,6 +1188,14 @@ permalink: /admin/
     document.addEventListener("DOMContentLoaded", function() {
       // 默认日期
       document.getElementById("post-date").value = todayStr();
+
+      ["post-title", "post-date", "post-tags", "post-body"].forEach(function(id) {
+        const el = document.getElementById(id);
+        if (el) {
+          el.addEventListener("input", updatePreview);
+        }
+      });
+      updatePreview();
 
       // Token 状态
       const tokenStatus = document.getElementById("token-status");
