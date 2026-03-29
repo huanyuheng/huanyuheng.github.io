@@ -567,3 +567,156 @@ ul.post-list > li .post-link {
     flex-direction: column;
   }
 }
+
+/* ====== 新功能：首页搜索、主题切换、回到顶部 ====== */
+
+.home-hero {
+  background: linear-gradient(120deg, #eef2ff, #f0f9ff);
+  border: 1px solid #dbeafe;
+  border-radius: 16px;
+  padding: 16px 18px;
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.home-kicker {
+  margin: 0;
+  font-size: 12px;
+  text-transform: uppercase;
+  color: #2563eb;
+  font-weight: 700;
+}
+
+.home-hero h1 {
+  margin: 4px 0;
+}
+
+.home-sub {
+  margin: 0;
+  color: #4b5563;
+}
+
+.home-search-wrap {
+  min-width: 260px;
+}
+
+.home-search-label {
+  display: block;
+  font-size: 12px;
+  color: #6b7280;
+  margin-bottom: 6px;
+}
+
+.home-search-input {
+  width: 100%;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 10px 12px;
+  background: #fff;
+}
+
+.post-tags {
+  margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.home-empty {
+  color: #6b7280;
+  text-align: center;
+  margin: 14px 0 4px;
+}
+
+.theme-toggle {
+  position: fixed;
+  right: 24px;
+  bottom: 82px;
+  z-index: 30;
+  border: 1px solid #d1d5db;
+  background: #fff;
+  border-radius: 999px;
+  padding: 8px 12px;
+  cursor: pointer;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.14);
+}
+
+.back-to-top {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 30;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background: #2563eb;
+  color: #fff;
+  font-size: 18px;
+  box-shadow: 0 10px 24px rgba(37, 99, 235, 0.45);
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(6px);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+
+.back-to-top.show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+body.theme-dark {
+  background-color: #0f172a;
+  color: #e5e7eb;
+}
+
+body.theme-dark .site-header,
+body.theme-dark .site-sidebar,
+body.theme-dark .right-card,
+body.theme-dark .post,
+body.theme-dark .page,
+body.theme-dark ul.post-list > li,
+body.theme-dark .link-card,
+body.theme-dark .gallery-card {
+  background: #111827;
+  border-color: #1f2937;
+  color: #e5e7eb;
+}
+
+body.theme-dark .sidebar-link,
+body.theme-dark .post-link,
+body.theme-dark .site-title,
+body.theme-dark h1,
+body.theme-dark h2,
+body.theme-dark h3,
+body.theme-dark .gallery-title {
+  color: #e5e7eb;
+}
+
+body.theme-dark .theme-toggle {
+  background: #1f2937;
+  color: #e5e7eb;
+  border-color: #374151;
+}
+
+body.theme-dark .home-search-input {
+  background: #111827;
+  color: #e5e7eb;
+  border-color: #374151;
+}
+
+@media (max-width: 900px) {
+  .home-hero {
+    flex-direction: column;
+  }
+
+  .home-search-wrap {
+    min-width: 0;
+    width: 100%;
+  }
+}
