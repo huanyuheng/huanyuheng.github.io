@@ -2,6 +2,7 @@
 <html lang="{{ page.lang | default: site.lang | default: "en" }}">
   {%- include head.html -%}
   <body>
+    <button class="theme-toggle" id="theme-toggle" type="button" aria-label="切换主题">🌙 深色</button>
     {%- include header.html -%}
 
     <main class="page-content" aria-label="Content">
@@ -27,6 +28,9 @@
       </div>
     </main>
 
+    <button class="back-to-top" id="back-to-top" type="button" aria-label="回到顶部">↑</button>
+
     {%- include footer.html -%}
+    <script src="{{ '/assets/js/site.js' | relative_url }}" defer></script>
   </body>
 </html>
