@@ -240,6 +240,154 @@ a:hover {
   transform: scale(1.04);
 }
 
+
+/* ====== 首页 Hero 区域 ====== */
+
+.home-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 280px;
+  gap: 18px;
+  align-items: stretch;
+  margin-bottom: 22px;
+}
+
+.home-hero-copy,
+.home-hero-card {
+  border: 1px solid #dbeafe;
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at top left, rgba(96, 165, 250, 0.24), transparent 32%),
+    linear-gradient(135deg, #ffffff 0%, #eff6ff 100%);
+  box-shadow: 0 18px 42px rgba(37, 99, 235, 0.12);
+}
+
+.home-hero-copy {
+  padding: 28px 30px;
+}
+
+.home-eyebrow {
+  margin: 0 0 8px 0;
+  color: #2563eb;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+.home-hero h1 {
+  max-width: 680px;
+  margin: 0;
+  color: #0f172a;
+  font-size: clamp(30px, 5vw, 48px);
+  line-height: 1.15;
+  letter-spacing: -1.2px;
+}
+
+.home-hero-text {
+  max-width: 720px;
+  margin: 16px 0 0 0;
+  color: #4b5563;
+  font-size: 16px;
+}
+
+.home-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.home-primary-action,
+.home-secondary-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 0 18px;
+  border-radius: 999px;
+  font-weight: 700;
+  transition: transform 0.08s ease, box-shadow 0.12s ease, background 0.12s ease;
+}
+
+.home-primary-action {
+  background: #2563eb;
+  color: #ffffff;
+  box-shadow: 0 12px 26px rgba(37, 99, 235, 0.32);
+}
+
+.home-secondary-action {
+  border: 1px solid #bfdbfe;
+  background: rgba(255, 255, 255, 0.78);
+  color: #1d4ed8;
+}
+
+.home-primary-action:hover,
+.home-secondary-action:hover {
+  transform: translateY(-1px);
+  text-decoration: none;
+}
+
+.home-primary-action:hover {
+  background: #1d4ed8;
+  color: #ffffff;
+}
+
+.home-secondary-action:hover {
+  background: #dbeafe;
+}
+
+.home-hero-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 22px;
+}
+
+.home-card-title {
+  color: #1e3a8a;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  margin-bottom: 14px;
+}
+
+.home-card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.home-card-grid > div {
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(191, 219, 254, 0.9);
+  padding: 12px;
+}
+
+.home-card-number,
+.home-card-label {
+  display: block;
+}
+
+.home-card-number {
+  color: #111827;
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.home-card-label {
+  margin-top: 6px;
+  color: #4b5563;
+  font-size: 12px;
+}
+
+.home-card-note {
+  margin: 14px 0 0 0;
+  color: #4b5563;
+  font-size: 13px;
+}
+
 /* ====== 文章列表卡片 ====== */
 
 ul.post-list {
@@ -544,6 +692,29 @@ ul.post-list > li .post-link {
 
   ul.post-list > li {
     border-radius: 10px;
+  }
+
+  .home-hero {
+    grid-template-columns: 1fr;
+  }
+
+  .home-hero-copy,
+  .home-hero-card {
+    border-radius: 14px;
+  }
+
+  .home-hero-copy {
+    padding: 22px;
+  }
+
+  .home-hero-actions {
+    flex-direction: column;
+  }
+
+  .home-primary-action,
+  .home-secondary-action {
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .link-button {
