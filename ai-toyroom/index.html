@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI Toyroom - AI 玩具展厅</title>
+  <meta name="description" content="AI Toyroom 是一个好逛、好筛选的 AI 工具展厅，收藏视频生成、图片编辑、3D、网页生成和 Agent 工具。">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="AI Toyroom 首页">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span>AI TOYROOM</span>
+    </a>
+    <nav class="site-nav" aria-label="主导航">
+      <a href="#categories">分类</a>
+      <a href="#featured">今日玩具</a>
+      <a href="#tools">全部工具</a>
+    </nav>
+    <button class="submit-button" type="button" aria-describedby="submit-note">
+      <span aria-hidden="true">+</span>
+      提交工具
+    </button>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow">AI 工具收藏室</p>
+        <h1 id="hero-title">网上的 AI 玩具，都收进这间展厅。</h1>
+        <p class="hero-lede">视频生成、图片编辑、3D 模型、网页生成和 Agent 工具，先挑好玩的，再挑好用的。</p>
+        <label class="search-box" for="tool-search">
+          <span>搜索工具</span>
+          <input id="tool-search" type="search" placeholder="试试：视频、修图、3D、Agent" autocomplete="off">
+        </label>
+        <p id="submit-note" class="tiny-note">提交入口是未来功能，第一版先做展示和筛选。</p>
+      </div>
+
+      <div class="hero-machine" aria-hidden="true">
+        <div class="machine-topline">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <div class="machine-screen">
+          <span></span>
+          <span></span>
+          <span></span>
+          <b></b>
+        </div>
+        <div class="machine-controls">
+          <i></i>
+          <i></i>
+          <i></i>
+        </div>
+      </div>
+    </section>
+
+    <section id="categories" class="category-section" aria-labelledby="category-title">
+      <div class="section-heading">
+        <p class="eyebrow">分类入口</p>
+        <h2 id="category-title">按你想玩的东西找</h2>
+      </div>
+      <div class="category-list" id="category-list" aria-label="工具分类"></div>
+    </section>
+
+    <section id="featured" class="featured-section" aria-labelledby="featured-title">
+      <div class="section-heading">
+        <p class="eyebrow">今日玩具</p>
+        <h2 id="featured-title">先从这个开始试</h2>
+      </div>
+      <article class="featured-card" id="featured-card"></article>
+    </section>
+
+    <section id="tools" class="tools-section" aria-labelledby="tools-title">
+      <div class="section-heading tools-heading">
+        <div>
+          <p class="eyebrow">全部展品</p>
+          <h2 id="tools-title">AI 工具墙</h2>
+        </div>
+        <p class="result-count" id="result-count" aria-live="polite"></p>
+      </div>
+      <div class="tool-grid" id="tool-grid"></div>
+      <div class="empty-state" id="empty-state" hidden>没有匹配的工具，换个关键词试试。</div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span>AI Toyroom</span>
+    <span>静态版，本地数据驱动。</span>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

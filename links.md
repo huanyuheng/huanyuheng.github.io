@@ -46,6 +46,7 @@ permalink: /links/
       <p>提升效率的小工具</p>
     </div>
     <div class="link-card-grid">
+      <a class="link-button" href="/ai-toyroom/">AI Toyroom</a>
       <a class="link-button" href="https://chatgpt.com" target="_blank">ChatGPT</a>
       <a class="link-button" href="https://claude.ai" target="_blank">Claude</a>
     </div>
